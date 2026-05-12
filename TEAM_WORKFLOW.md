@@ -1,66 +1,121 @@
-# 🚂 دليل عمل فريق مشروع قطارات المملكة المتحدة (UK Train Rides)
+# 📋 Team Workflow — UK Train Rides Analysis
 
-أهلاً بكم يا شباب! تم الانتهاء من إعداد الملف الأساسي (`Foundation_v1.pbix`) الذي يحتوي على الـ Data Model والـ Measures الجاهزة.
-
-## 📌 توزيع المهام وتفاصيل الصفحات
-
-كل فرد في الفريق مسؤول عن صفحة محددة. إليكم المتطلبات **المبدئية** لكل صفحة (استخدموا الـ Measures الجاهزة في مجلد `_Measures`):
-
-### 📄 1. MA: صفحة Executive Summary (ملخص الإدارة)
-* **الهدف:** نظرة عليا على أداء الشبكة.
-* **المرئيات (Visuals) المطلوبة:**
-  * **3 كروت (KPI Cards):** لعرض `Total_Revenue`, `Total_Rides`, `On_Time_Pct`.
-  * **Line Chart (مزدوج المحور):** المحور الأفقي: `Month_Name`، المحور الرأسي 1: `Total_Revenue`، المحور الرأسي 2: `Total_Rides`.
-  * **Bar Chart:** المحور الرأسي: `Station_Name`، القيم: `Revenue_by_Departure` (أعلى 10 محطات).
-  * **Stacked Bar:** المحور الأفقي: `Month_Name`، تقسيم (Legend): `Journey Status`، القيم: `Total_Rides`.
-  * **Slicers:** للفلترة بـ `Month_Name` و `Weekend_Label`.
-* **التصميم المقترح:** أزرق داكن وأبيض.
-
-### 📄 2. MB: صفحة Revenue Deep Dive (تحليل الإيرادات)
-* **الهدف:** تحليل مصادر الإيرادات والخسائر.
-* **المرئيات (Visuals) المطلوبة:**
-  * **2 كروت (KPI Cards):** لعرض `Refunded_Revenue`, `Avg_Ticket_Price`.
-  * **Stacked Bar:** المحور الأفقي: `Price_Band`، تقسيم: `Month_Name`، القيم: `Total_Revenue`.
-  * **Matrix:** الصفوف: `Ticket_Class`، الأعمدة: `Ticket_Type`، القيم: `Total_Revenue` و `Total_Rides` (مع إضافة Data Bars/Color Scale).
-  * **Column Chart:** المحور الأفقي: `Railcard_Type` (استبعد "None" بفلتر)، القيم: `Total_Revenue`.
-  * **Treemap:** التجميع: `Booking_Window`، القيم: `Total_Revenue`.
-  * **Slicers:** للفلترة بـ `Price_Band` و `Month_Name`.
-* **التصميم المقترح:** أخضر داكن وذهبي (مع استخدام الأحمر للخسائر فقط).
-
-### 📄 3. MC: صفحة Operations & Reliability (العمليات والموثوقية)
-* **الهدف:** قياس الموثوقية التشغيلية (تأخيرات، إلغاءات).
-* **المرئيات (Visuals) المطلوبة:**
-  * **2 كروت (KPI Cards):** لعرض `On_Time_Pct`, `Cancellation_Rate`.
-  * **Gauge:** لعرض `On_Time_Pct` (الهدف 90%).
-  * **Bar Chart:** المحور الرأسي: `Station_Name`، القيم: `Cancellation_Rate`.
-  * **Column Chart:** المحور الأفقي: `Month_Name`، القيم: `Avg_Delay_Min`.
-  * **Waterfall Chart:** يوضح توزيع الـ `Total_Rides` حسب الـ `Journey Status` (On Time → Delayed → Cancelled).
-  * **جدول (Table):** يوضح تفاصيل المحطات (`Departure Station`, `Arrival Destination`, `Journey Status`) والقيم: `Total_Rides`, `On_Time_Pct`.
-  * **Slicer:** للفلترة بـ `Journey Status`.
-* **التصميم المقترح:** رمادي مع أحمر (للتأخير/الإلغاء) وأخضر (في الموعد).
-
-### 📄 4. MD: صفحة Demand & Booking Patterns (أنماط الطلب والحجز)
-* **الهدف:** فهم سلوك المسافرين وأنماط الحجز.
-* **المرئيات (Visuals) المطلوبة:**
-  * **Column Chart:** المحور الأفقي: `Day_Name`، القيم: `Total_Rides`.
-  * **Heatmap (Matrix):** الصفوف `Month_Name`، الأعمدة `Day_Name`، القيم `Total_Rides` (باستخدام Color Scale).
-  * **Bar Chart:** المحور الرأسي: `Time_Period`، القيم: `Total_Rides`.
-  * **Bar Chart:** المحور الرأسي: `Booking_Window`، القيم: `Total_Rides`.
-  * **Scatter Chart:** المحور الأفقي: `Booking_Window`، المحور الرأسي: `Avg_Ticket_Price`، التقسيم اللوني: `Ticket_Type`.
-  * **Slicers:** للفلترة بـ `Time_Period` و `Weekend_Label`.
-* **التصميم المقترح:** بنفسجي داكن وبرتقالي.
+> **توزيع المهام الرسمي** | 4 أعضاء | Instructor: Kareem Bakly
 
 ---
 
-## 💡 الإبداع والحرية في التصميم
+## 👑 TL — Eyad Ahmed (Team Leader)
 
-هذه المتطلبات هي **الأساس والمطلوب كحد أدنى**، لكن **كل شخص حر تماماً في تعديل وتطوير صفحته بالطريقة التي يراها مناسبة!** 
-يمكنك إضافة أي تحسينات بصرية إضافية، استخدام ألوان وتصاميم حديثة، إضافة Tooltips، أو استبدال Visual بآخر إذا وجدت أنه يوصل الفكرة بشكل أفضل لمتخذ القرار. 
+### المسؤوليات:
+- **Dashboard Page:** Executive Summary + Forecasting (Optional)
+- **Data Architecture:** Star Schema (Fact_Rides + 5 Dimension Tables)
+- **DAX Engine:** كل الـ Measures والـ Calculated Columns
+- **Integration & QA:** دمج صفحات الفريق + مراجعة الجودة
+- **Design System:** تطبيق Azure Rail Glassmorphism عبر كل الصفحات
 
-## ⚠️ شرط هام جداً عند الرفع (Commit)
+### الـ Deliverables:
+1. ✅ Data Model كامل (Star Schema)
+2. ✅ Executive Summary Page (KPI Cards + Charts)
+3. ✅ Forecasting Page (اختياري)
+4. ✅ Report Theme JSON
+5. ✅ Page Navigation System
+6. ✅ Final Integration & Testing
 
-لكي نتمكن من دمج العمل بسلاسة وتتبع التحسينات، **يشترط عند رفع ملفك (Upload/Push) أن تقوم بإرفاق ملاحظة واضحة (Commit Message/Note)** توضح الآتي:
-1. ما هي الصفحة التي قمت بتحديثها (مثال: Page 2 - MB).
-2. أبرز الإضافات أو التحسينات التي قمت بها (مثال: "تم إضافة Treemap وإضافة تنسيق شرطي للـ Matrix").
+---
 
-بالتوفيق للجميع، ولنخرج بلوحة تحكم (Dashboard) احترافية ومتميزة! 🚀
+## 📊 MB — Ahmed Ali (Data Analyst)
+
+### المسؤوليات:
+- **Dashboard Page:** Revenue Deep Dive
+
+### الـ Deliverables:
+1. Revenue breakdown by Departure Station (Bar Chart)
+2. Ticket Class × Ticket Type Revenue Matrix (with Data Bars)
+3. Revenue Treemap (Station → Class → Type)
+4. Refund Analysis (Rate + Trend)
+5. Month-over-Month Revenue Change (with ▲▼ indicators)
+6. Reference Lines (Average Revenue per Station)
+
+### الـ Visuals المطلوبة:
+- Clustered Bar Chart (Revenue by Station)
+- Matrix with Conditional Formatting
+- Treemap (3-level drill-down)
+- Line Chart (Revenue Trend)
+- Ribbon Chart (Station Ranking over Time)
+
+---
+
+## ⏱️ MC — Mostafa Sabry (Data Analyst)
+
+### المسؤوليات:
+- **Dashboard Page:** Operations & Reliability
+
+### الـ Deliverables:
+1. On-Time Performance Rate (Gauge with 90% Target)
+2. Delay Root Cause Analysis (Donut Chart)
+3. Cancellation Rate Tracking (Alert-Style KPI)
+4. Journey Status Waterfall (On Time → Delayed → Cancelled)
+5. Top 10 Worst Routes by Delay (Bar Chart)
+6. Delay Distribution Histogram
+
+### الـ Visuals المطلوبة:
+- Gauge Chart (On-Time %)
+- Donut Chart (Delay Reasons)
+- Waterfall Chart (Status Breakdown)
+- Bar Chart (Top 10 Delays)
+- Line Chart (Monthly Trend with Anomaly Detection)
+- Heatmap Matrix (Route × Status)
+
+---
+
+## 📈 MD — Rawan Tarek (Data Analyst)
+
+### المسؤوليات:
+- **Dashboard Page:** Demand & Booking Patterns
+
+### الـ Deliverables:
+1. Monthly Demand Heatmap (Month × Day of Week)
+2. Booking Window Analysis (Days between Purchase & Journey)
+3. Peak Hours Identification (Time Period Bar Chart)
+4. Purchase Type Distribution (Donut Chart)
+5. Price vs Revenue Scatter (with Bubble Size = Rides)
+6. Booking Funnel (All → Advance → On Day)
+
+### الـ Visuals المطلوبة:
+- Matrix Heatmap (Conditional Colors)
+- Clustered Bar Chart (Booking Window)
+- Bar Chart (Time Periods with Peak Highlight)
+- Donut Chart (Purchase Type)
+- Scatter/Bubble Chart (Price × Revenue)
+- Area Chart (Monthly Demand by Class)
+
+---
+
+## 📅 Workflow Steps
+
+```
+1. Clone Repo → Read GETTING_STARTED.md
+2. Open Foundation_v1_TL.pbix → Find your page
+3. Read ADVANCED_DASHBOARD_GUIDE.md → Follow design rules
+4. Build your visuals → Apply design system colors
+5. Save → Notify TL for review
+6. TL merges all pages → Final QA
+```
+
+---
+
+## 🎨 Design Rules (Mandatory)
+
+| Rule | Value |
+|------|-------|
+| Canvas Size | 1664 × 936 px |
+| Primary Color | Deep Navy #003366 |
+| Accent Color | Azure Blue #0078D4 |
+| Font | Segoe UI |
+| Header Height | 45px Navy band |
+| Corner Radius | 12px cards, 20px containers |
+| Animation | ON, 800ms |
+
+---
+
+> 📌 For detailed design guide, see: **ADVANCED_DASHBOARD_GUIDE.md**
