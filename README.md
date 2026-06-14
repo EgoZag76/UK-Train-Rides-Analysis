@@ -43,16 +43,23 @@
 ├── 📊 Foundation_v1_TL.pbix           → Base Power BI Dashboard
 ├── 📄 Project_Info.pdf                 → Project Documentation (PDF)
 ├── 📋 README.md                        → This file
+├── 📋 Project_PRD.md                   → Active Product Requirements Document (Root)
 ├── 📐 ADVANCED_DASHBOARD_GUIDE.md      → Professional Dashboard Design Guide
 ├── 📑 TEAM_WORKFLOW.md                 → Task Distribution & Workflow
 ├── 📖 GETTING_STARTED.md               → Onboarding Guide
+├── 📖 GETTING_STARTED_اول حاجه تقرأ ده.md → Onboarding Guide (Arabic)
 ├── 🗂️ UK Train Rides new.csv           → Raw Dataset
 ├── 📂 docs/
-│   ├── Project_PRD.md                  → Product Requirements Document
-│   ├── Team_Implementation_Plan.md     → Implementation Plan
+│   ├── New_Implementation_Plan.rtl.md  → Active Implementation Plan (Arabic/RTL)
 │   ├── Power_BI_Modeling_Guide.md      → Data Modeling Guide
-│   ├── PROJECT_OVERVIEW.md             → Project Overview
-│   └── DESIGN.md                       → Design System Specs
+│   └── DESIGN.md                       → Design System Specs (Azure Rail Glassmorphism)
+├── 📂 archive/                         → Archived legacy/unsupported documentation
+│   ├── Project_PRD.md
+│   ├── Team_Implementation_Plan.md
+│   ├── Team_Implementation_Plan_root.md
+│   ├── PROJECT_OVERVIEW.md
+│   ├── DESIGN.md
+│   └── power_bi_data_model.md
 └── 📂 buttons/                         → SVG Navigation Buttons
 ```
 
