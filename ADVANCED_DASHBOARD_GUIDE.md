@@ -153,14 +153,18 @@ Type:   Custom (Widescreen 16:9)
 
 ```dax
 // === SPARKLINE KPI CARD ===
-Total_Revenue = SUMX(Fact_Rides, Fact_Rides[Price])
+// استخدم New Card Visual في Power BI
+// أضف: القيمة الرئيسية + Reference Label + Sparkline
+
+Total_Revenue = 
+    SUMX(Fact_Rides, Fact_Rides[Price])
 
 Revenue_vs_Target = 
     VAR _actual = [Total_Revenue]
-    VAR _target = 800000
+    VAR _target = 750000  // Target واقعي لتجنب الـ KPI الأحمر الدائم (الفعلي ≈ 741,921)
     RETURN DIVIDE(_actual - _target, _target, 0)
 
-// Conditional Formatting:
+// Conditional Formatting Rule:
 // IF Revenue_vs_Target > 0 → #00875A (Emerald)
 // IF Revenue_vs_Target < 0 → #C62828 (Crimson)
 ```
@@ -169,16 +173,16 @@ Revenue_vs_Target =
 
 | # | التكنيك | التفاصيل | الأثر |
 |---|---------|----------|-------|
-| 1 | **Smart Narrative AI** | Smart Narrative Visual → وصف نصي تلقائي | 🤯 يبهر المحاضر |
-| 2 | **Animated KPI Transitions** | Animation → ON → 800ms | ✨ حركة سلسة |
-| 3 | **Dynamic Page Title** | `"Executive Summary — " & FORMAT(TODAY(), "DD MMM YYYY")` | 📅 تحديث تلقائي |
-| 4 | **Bookmark Toggle Views** | Revenue Focus + Operations Focus | 🔄 تفاعل مبهر |
-| 5 | **Custom Tooltip Page** | صفحة مخفية 320×240px | 💡 معلومات عميقة |
-| 6 | **Conditional Background** | On-Time < 85% → خلفية حمراء خفيفة | ⚠️ إنذار بصري |
-| 7 | **Last Refreshed Stamp** | `FORMAT(MAX(Dim_Date[Full_Date]), "DD MMM YYYY")` | 🕐 مصداقية |
-| 8 | **KPI Target Lines** | Reference Line للـ Target | 🎯 مقارنة فورية |
-| 9 | **Gradient Header** | #003366 → #004080 | 🌊 عمق بصري |
-| 10 | **Micro-Animation** | Ease-In-Out عند تغيير Slicer | 🎬 Premium |
+| 1 | **Smart Narrative AI** | أضف Smart Narrative Visual → يولّد تلقائياً وصف نصي للبيانات | 🤯 يبهر المحاضر |
+| 2 | **Animated KPI Transitions** | في Format → Animation → ON → Duration: 800ms | ✨ حركة سلسة عند التصفية |
+| 3 | **Dynamic Page Title** | `"Executive Summary — " & FORMAT(TODAY(), "DD MMM YYYY")` | 📅 يتحدث تلقائياً |
+| 4 | **Bookmark Toggle Views** | اعمل 2 Bookmarks: "Revenue Focus" + "Operations Focus" → زر يتنقل بينهم | 🔄 تفاعل مبهر |
+| 5 | **Custom Tooltip Page** | صفحة مخفية 320×240px → تظهر عند Hover على أي Bar | 💡 معلومات عميقة |
+| 6 | **Conditional Background** | إذا On-Time < 85% → خلفية الصفحة تتحول لـ rgba(198,40,40,0.05) | ⚠️ إنذار بصري |
+| 7 | **Last Refreshed Stamp** | `"Data as of: " & FORMAT(MAX(Dim_Date[Full_Date]), "DD MMM YYYY")` | 🕐 مصداقية |
+| 8 | **KPI Target Lines** | على كل KPI Card: أضف Reference Line للـ Target | 🎯 مقارنة فورية |
+| 9 | **Gradient Header** | Header Navy يتدرج من #003366 → #004080 | 🌊 عمق بصري |
+| 10 | **Micro-Animation on Filter** | كل Visual يتحرك بـ Ease-In-Out عند تغيير Slicer | 🎬 تجربة Premium |
 
 ---
 
@@ -186,33 +190,49 @@ Revenue_vs_Target =
 
 > **الفلسفة:** "أين تذهب أموالنا؟ وأين نخسرها؟"
 
-#### DAX Measures:
+#### DAX Measures المتقدمة:
 
 ```dax
-Revenue_Per_Journey = DIVIDE([Total_Revenue], [Total_Rides], 0)
-Revenue_Rank = RANKX(ALL(Dim_Station[Departure_Station]), [Total_Revenue],, DESC)
-Refund_Rate = DIVIDE(COUNTROWS(FILTER(Fact_Rides, Fact_Rides[Refund_Amount] > 0)), [Total_Rides], 0)
+// === REVENUE INTELLIGENCE ===
+
+Revenue_Per_Journey = 
+    DIVIDE([Total_Revenue], [Total_Rides], 0)
+
+Revenue_Rank = 
+    RANKX(ALL(Dim_Station[Departure_Station]), [Total_Revenue],, DESC)
+
+Refund_Rate = 
+    DIVIDE(
+        COUNTROWS(FILTER(Fact_Rides, Fact_Rides[Refund_Amount] > 0)),
+        [Total_Rides], 0
+    )
 
 Revenue_MoM_Change = 
     VAR _current = [Total_Revenue]
     VAR _previous = CALCULATE([Total_Revenue], DATEADD(Dim_Date[Full_Date], -1, MONTH))
     RETURN DIVIDE(_current - _previous, _previous, 0)
+
+// Dynamic Title
+Revenue_Page_Title = 
+    "Revenue Analysis — " & 
+    SELECTEDVALUE(Dim_Date[Month_Name], "All Months") & 
+    " | " & FORMAT([Total_Revenue], "£#,##0")
 ```
 
 #### تكنيكات خارقة:
 
-| # | التكنيك | النتيجة |
-|---|---------|---------|
-| 1 | **Data Bars في Matrix** | 📊 مقارنة بصرية فورية |
-| 2 | **Top N Dynamic Filter** | 🎛️ تفاعل ذكي |
-| 3 | **Treemap + Drill-Down** | 🌳 استكشاف عميق |
-| 4 | **Reference Line (Average)** | 📏 فوق/تحت المتوسط |
-| 5 | **Conditional Icons ▲▼** | 🔺 اتجاه فوري |
-| 6 | **Ribbon Chart** | 🎗️ تتبع التغيرات |
-| 7 | **Drill-Through Page** | 🔍 تحليل عميق |
-| 8 | **Small Multiples** | 📱 مقارنة متعددة |
-| 9 | **Decomposition Tree** | 🤖 ذكاء اصطناعي |
-| 10 | **Waterfall** | 🌊 قصة الإيرادات |
+| # | التكنيك | كيفية التنفيذ | النتيجة |
+|---|---------|---------------|---------|
+| 1 | **Data Bars في Matrix** | Matrix → Values → Conditional Formatting → Data Bars (Azure Blue gradient) | 📊 مقارنة بصرية فورية |
+| 2 | **Top N Dynamic Filter** | What-If Parameter "Show Top N" (5-20) → يتحكم in عدد المحطات المعروضة | 🎛️ تفاعل ذكي |
+| 3 | **Treemap + Drill-Down** | Treemap: Station → Ticket Class → Ticket Type (3 مستويات) | 🌳 استكشاف عميق |
+| 4 | **Reference Line (Average)** | Bar Chart → Analytics → Average Line → Dashed, Crimson color | 📏 فوق/تحت المتوسط |
+| 5 | **Conditional Icons ▲▼** | على MoM% → Rules: >0 = ▲ Green, <0 = ▼ Red, =0 = ► Gray | 🔺 اتجاه فوري |
+| 6 | **Ribbon Chart** | بدل Bar Chart عادي → Ribbon Chart لعرض ترتيب المحطات عبر الأشهر | 🎗️ تتبع التغيرات |
+| 7 | **Drill-Through Page** | صفحة مخفية "Station Details" → Right-click على أي محطة → تفاصيل كاملة | 🔍 تحليل عميق |
+| 8 | **Small Multiples** | Revenue by Ticket Type → Small Multiples by Month (2×2 grid) | 📱 مقارنة متعددة |
+| 9 | **Decomposition Tree** | استخدم Decomposition Tree AI Visual → يكشف تلقائياً أهم عوامل الإيراد | 🤖 ذكاء اصطناعي |
+| 10 | **Waterfall (Revenue Breakdown)** | Revenue → Class → Type → Refunds (Decrease) → Net Revenue | 🌊 قصة الإيرادات |
 
 ---
 
@@ -223,30 +243,49 @@ Revenue_MoM_Change =
 #### DAX Measures:
 
 ```dax
-On_Time_Rate = DIVIDE(COUNTROWS(FILTER(Fact_Rides, Fact_Rides[Journey_Status] = "On Time")), [Total_Rides], 0)
-Avg_Delay_Minutes = AVERAGEX(FILTER(Fact_Rides, Fact_Rides[Journey_Status] = "Delayed"), Fact_Rides[Delay_Minutes])
-Cancellation_Rate = DIVIDE(COUNTROWS(FILTER(Fact_Rides, Fact_Rides[Journey_Status] = "Cancelled")), [Total_Rides], 0)
+// === OPERATIONAL INTELLIGENCE ===
 
-Reliability_Alert = SWITCH(TRUE(),
-    [On_Time_Rate] >= 0.9, "EXCELLENT",
-    [On_Time_Rate] >= 0.8, "WARNING",
-    "CRITICAL")
+On_Time_Rate = 
+    DIVIDE(
+        COUNTROWS(FILTER(Fact_Rides, Fact_Rides[Journey_Status] = "On Time")),
+        [Total_Rides], 0
+    )
+
+Avg_Delay_Minutes = 
+    AVERAGEX(
+        FILTER(Fact_Rides, Fact_Rides[Journey_Status] = "Delayed"),
+        Fact_Rides[Delay_Minutes]
+    )
+
+Cancellation_Rate = 
+    DIVIDE(
+        COUNTROWS(FILTER(Fact_Rides, Fact_Rides[Journey_Status] = "Cancelled")),
+        [Total_Rides], 0
+    )
+
+// Alert-Style Measure
+Reliability_Alert = 
+    SWITCH(TRUE(),
+        [On_Time_Rate] >= 0.9, "EXCELLENT",
+        [On_Time_Rate] >= 0.8, "WARNING",
+        "CRITICAL"
+    )
 ```
 
 #### تكنيكات خارقة:
 
-| # | التكنيك | الأثر |
-|---|---------|-------|
-| 1 | **Gauge مع Traffic Light** | 🚦 حالة فورية |
-| 2 | **Conditional Row Colors** | 🔴 تمييز المشاكل |
-| 3 | **Anomaly Detection (AI)** | 🤖 اكتشاف تلقائي |
-| 4 | **Key Influencers (AI)** | 🧠 تحليل جذري |
-| 5 | **Waterfall + Annotations** | 🌊 توزيع الحالات |
-| 6 | **Heatmap (Route × Status)** | 🗺️ خريطة المشاكل |
-| 7 | **Delay Distribution Histogram** | 📊 توزيع التأخير |
-| 8 | **SLA Indicator Band** | 🎯 حد الخدمة |
-| 9 | **Top 10 Worst Routes** | ⚠️ أسوأ المسارات |
-| 10 | **Error Donut** | 🍩 أسباب الفشل |
+| # | التكنيك | التنفيذ | الأثر |
+|---|---------|---------|-------|
+| 1 | **Gauge مع Traffic Light** | Gauge: Target=90% → Green >90%, Amber 80-90%, Red <80% | 🚦 حالة فورية |
+| 2 | **Conditional Row Colors** | Table → Format → Cell Elements → Background: "Cancelled" = Red tint | 🔴 تمييز المشاكل |
+| 3 | **Anomaly Detection (AI)** | Line Chart → Analytics → Find Anomalies → Sensitivity: 80% | 🤖 اكتشاف تلقائي |
+| 4 | **Key Influencers (AI)** | Key Influencers Visual → "What influences Journey Status to be Delayed?" | 🧠 تحليل جذري |
+| 5 | **Waterfall + Annotations** | Journey Status Waterfall: On Time → Delayed → Cancelled مع Labels واضحة | 🌊 توزيع الحالات |
+| 6 | **Heatmap (Route × Status)** | Matrix: Route rows × Status columns → Conditional Colors (Emerald → Crimson) | 🗺️ خريطة المشاكل |
+| 7 | **Delay Distribution Histogram** | Histogram Visual → Delay_Minutes → Bins: 0-15, 15-30, 30-60, 60+ | 📊 توزيع التأخير |
+| 8 | **SLA Indicator Band** | Line Chart → Analytics → Constant Line at 90% (SLA Target) → Red dashed | 🎯 حد الخدمة |
+| 9 | **Top 10 Worst Routes** | Bar Chart → Top N Filter = 10 → Sort by Avg_Delay DESC → Crimson bars | ⚠️ أسوأ المسارات |
+| 10 | **Error Donut** | Donut Chart: Reason for Delay → بألوان متدرجة من Amber → Crimson | 🍩 أسباب الفشل |
 
 ---
 
@@ -257,38 +296,52 @@ Reliability_Alert = SWITCH(TRUE(),
 #### DAX Measures:
 
 ```dax
-Booking_Window_Days = AVERAGEX(Fact_Rides, DATEDIFF(Fact_Rides[Date_of_Purchase], Fact_Rides[Date_of_Journey], DAY))
-Peak_Hour_Rides = CALCULATE([Total_Rides], Fact_Rides[Time_Period] IN {"Morning Peak", "Evening Peak"})
-Peak_Percentage = DIVIDE([Peak_Hour_Rides], [Total_Rides], 0)
-Active_Filters_Count = "Showing " & FORMAT(COUNTROWS(Fact_Rides), "#,##0") & " of 31,653 transactions"
+Booking_Window_Days = 
+    AVERAGEX(
+        Fact_Rides,
+        DATEDIFF(Fact_Rides[Date_of_Purchase], Fact_Rides[Date_of_Journey], DAY)
+    )
+
+Peak_Hour_Rides = 
+    CALCULATE([Total_Rides], 
+        Fact_Rides[Time_Period] IN {"Morning Peak", "Evening Peak"})
+
+Peak_Percentage = 
+    DIVIDE([Peak_Hour_Rides], [Total_Rides], 0)
+
+// Dynamic Counter
+Active_Filters_Count = 
+    "Showing " & FORMAT(COUNTROWS(Fact_Rides), "#,##0") & " of 31,653 transactions"
 ```
 
 #### تكنيكات خارقة:
 
-| # | التكنيك | الأثر |
-|---|---------|-------|
-| 1 | **Heatmap (Month × Day)** | 🔥 خريطة الطلب الحراري |
-| 2 | **Small Multiples** | 📱 مقارنة ذكية |
-| 3 | **Scatter + Bubble Size** | 🫧 3 أبعاد |
-| 4 | **Trend Line + Forecast** | 📈 اتجاه مستقبلي |
-| 5 | **Peak Hours Highlight** | ⚡ تمييز الذروة |
-| 6 | **Funnel Chart** | 🔽 مسار الحجز |
-| 7 | **Donut + Center Label** | 🎯 نسبة + رقم |
-| 8 | **Area Chart (Stacked)** | 📊 تكوين الطلب |
-| 9 | **Slicer Panel (Hidden)** | 🎛️ واجهة نظيفة |
-| 10 | **Dynamic Subtitle** | 📝 سياق مباشر |
+| # | التكنيك | التنفيذ | الأثر |
+|---|---------|---------|-------|
+| 1 | **Heatmap (Month × Day)** | Matrix → Conditional Format → Color Scale: White → Deep Navy | 🔥 خريطة الطلب الحراري |
+| 2 | **Small Multiples** | Booking Window chart → Small Multiples by Ticket Type (2×2) | 📱 مقارنة ذكية |
+| 3 | **Scatter + Bubble Size** | X=Price, Y=Revenue, Size=Total_Rides → Bubble Chart | 🫧 3 أبعاد من البيانات |
+| 4 | **Trend Line + Forecast** | Scatter → Analytics → Trend Line (Linear) + Forecast Band | 📈 اتجاه مستقبلي |
+| 5 | **Peak Hours Highlight** | Bar Chart → Conditional: "Morning Peak" & "Evening Peak" = Azure Blue, Others = Gray | ⚡ تمييز الذروة |
+| 6 | **Funnel Chart** | Booking Flow: All Rides → Advance → On Day → After Departure | 🔽 مسار الحجز |
+| 7 | **Donut + Center Label** | Donut: Purchase Type → Center: Total Rides count | 🎯 نسبة + رقم |
+| 8 | **Area Chart (Stacked)** | Monthly Demand → Stacked by Ticket Class → Shows composition over time | 📊 تكوين الطلب |
+| 9 | **Slicer Panel (Hidden)** | Button "Filters" → يفتح Panel جانبي بكل الـ Slicers (Bookmark trick) | 🎛️ واجهة نظيفة |
+| 10 | **Dynamic Subtitle** | تحت العنوان: `Active_Filters_Count` measure | 📝 سياق مباشر |
 
 ---
 
 ### 🔮 Page 5: Forecasting (Optional) — Eyad Ahmed (TL)
 
+> **الفلسفة:** "ماذا سيحدث في الأسابيع القادمة؟"
+
 | # | التكنيك | التنفيذ |
 |---|---------|---------|
-| 1 | **Built-in Forecast** | Line Chart → Analytics → Forecast → 30 days, 95% Confidence |
-| 2 | **What-If Parameter** | Price Adjustment % → -20% to +20% |
-| 3 | **Scenario Cards** | Optimistic / Base / Pessimistic |
-| 4 | **Forecast Accuracy** | MAPE calculation |
-| 5 | **Confidence Band** | Light Azure fill |
+| 1 | **Built-in Forecast** | Line Chart → Analytics → Forecast → Period: 30 days → Confidence: 95% |
+| 2 | **What-If Parameter** | Modeling → New Parameter → "Price Adjustment %" → Range: -20% to +20% |
+| 3 | **Scenario Cards** | 3 KPI Cards: Optimistic / Base / Pessimistic Revenue forecast |
+| 4 | **Forecast Accuracy** | Compare actual vs predicted for known periods → MAPE calculation |
+| 5 | **Confidence Band** | Shaded area between upper & lower bounds → Light Azure fill |
 
 ---
 
@@ -296,12 +349,20 @@ Active_Filters_Count = "Showing " & FORMAT(COUNTROWS(Fact_Rides), "#,##0") & " o
 
 ### Typography System
 ```
-Font:       Segoe UI
+Font:       Segoe UI (أو Metropolis إن توفر)
 Headers:    18pt Bold, #003366
 Sub-heads:  14pt SemiBold, #0078D4
 Body:       11pt Regular, #2D3748
 Labels:     9pt Regular, #607D8B
 KPI Values: 24pt Bold, #003366
+```
+
+### Navigation System
+```
+كل صفحة تحتوي في الأسفل على:
+[◄ Previous] [●] [●] [●] [●] [Next ►]
+استخدم أزرار SVG من مجلد buttons/
+Action: Page Navigation → اسم الصفحة
 ```
 
 ### Report Theme JSON
@@ -323,6 +384,14 @@ KPI Values: 24pt Bold, #003366
 }
 ```
 
+### Slicer Sync
+```
+View → Sync Slicers → تأكد أن:
+- Month Slicer: متزامن عبر كل الصفحات
+- Date Range: متزامن عبر كل الصفحات
+- Station: غير متزامن (كل صفحة مستقلة)
+```
+
 ### Performance Tips
 ```
 1. استخدم Star Schema (لا Flat Tables)
@@ -342,7 +411,7 @@ KPI Values: 24pt Bold, #003366
 - [ ] Data Labels مفعلة (حجم صغير)
 - [ ] Alt Text على كل Visual (Accessibility)
 - [ ] Navigation Buttons تعمل بين كل الصفحات
-- [ ] Slicers متزامنة
+- [ ] Slicers متزامنة حسب الجدول أعلاه
 - [ ] Custom Tooltips تعمل بشكل صحيح
 - [ ] الخطوط موحدة (Segoe UI)
 - [ ] Canvas Size = 1664 × 936
