@@ -7,7 +7,7 @@
 ## 🚀 خطوة 1: حمّل المشروع
 
 ```bash
-git clone https://github.com/EgoZag76/UK-Train-Rides-Analysis.git
+git clone https://github.com/Eyad-Ahmed-XP/UK-Train-Rides-Analysis-project.git
 ```
 
 ---
@@ -20,6 +20,8 @@ git clone https://github.com/EgoZag76/UK-Train-Rides-Analysis.git
 | `TEAM_WORKFLOW.md` | مهامك المحددة | ✅ مهم جداً |
 | `ADVANCED_DASHBOARD_GUIDE.md` | دليل التصميم الاحترافي | ✅ قبل ما تبدأ |
 | `Project_Info.pdf` | وثيقة المشروع الرسمية | 📄 للمراجعة |
+| `docs/Power_BI_Modeling_Guide.md` | دليل بناء الـ Data Model | 📊 مرجع تقني |
+| `Project_PRD.md` | متطلبات المشروع الكاملة | 📋 مرجع |
 
 ---
 
