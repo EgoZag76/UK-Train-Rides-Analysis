@@ -52,6 +52,17 @@
 
 ---
 
+## 👥 أعضاء الفريق
+
+| الكود | الاسم | الصفحة |
+|-------|-------|--------|
+| TL | Eyad Ahmed (Leader) | Executive Summary |
+| MB | Ahmed Ali | Revenue Deep Dive |
+| MC | Mostafa Sabry | Operations & Reliability |
+| MD | Rawan Tarek | Demand & Booking |
+
+---
+
 ## 💡 نصائح سريعة لنجاح الفريق:
 - **التواصل المستمر:** لو في Metric معين مش واضح أو محتاج مساعدة في DAX، اسأل الفريق.
 - **التوحيد (Consistency):** حاولوا كلكم تستخدموا نفس نوع وحجم الخطوط (مثلاً Segoe UI أو DIN) عشان لما الـ Dashboards تتجمع، يكون شكلها كأن شخص واحد اللي عاملها.
