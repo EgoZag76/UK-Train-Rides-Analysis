@@ -1,7 +1,7 @@
 # 🏗️ دليل بناء الـ Data Model في Power BI — Star Schema
 
 > **المشروع:** UK Train Rides Analysis  
-> **الأعمدة:** 17 أصلي + 4 ميزات جديدة (F10–F13)  
+> **الأعمدة:** 18 أصلي + 4 ميزات جديدة (F10–F13)  
 > **النموذج:** Star Schema (نجمة)
 
 ---
@@ -50,6 +50,7 @@ erDiagram
         decimal Price
         string Journey_Status
         string Refund_Request
+        string Reason_for_Delay
         string Time_Period
         string Price_Band
         string Booking_Window
@@ -115,6 +116,7 @@ erDiagram
 | `Price` | أصلي | Decimal | 💰 **المقياس الرئيسي** — سعر التذكرة (£) |
 | `Journey_Status` | أصلي | Text | حالة الرحلة (On Time / Delayed / Cancelled) |
 | `Refund_Request` | أصلي | Text | هل طُلب استرداد؟ (Yes / No) |
+| `Reason_for_Delay` | أصلي | Text | سبب التأخير أو الإلغاء (Weather, Signal Failure, etc.) |
 | `Time_Period` | ✨ **ميزة جديدة F10** | Text | فترة اليوم (Morning Peak / Midday / Evening Peak / Off-Peak) |
 | `Price_Band` | ✨ **ميزة جديدة F11** | Text | الفئة السعرية (Budget / Standard / Premium / Luxury) |
 | `Booking_Window` | ✨ **ميزة جديدة F12** | Text | نافذة الحجز (Same Day / Short / Medium / Long / Very Long) |
@@ -361,39 +363,41 @@ CALCULATE(SUM(Fact_Rides[Price]), Fact_Rides[Revenue_Lost_Flag] = TRUE())
 
 ## 🎯 ملخص عملي — خطوات التنفيذ في Power BI
 
+````carousel
 ### الخطوة 1: استيراد البيانات
 1. افتح Power BI Desktop
 2. اختر **Get Data → Text/CSV**
 3. استورد ملف `Cleaned_Data_Final.csv`
 4. في **Power Query Editor**، تأكد من أنواع الأعمدة (خصوصاً التواريخ والأوقات)
-
+<!-- slide -->
 ### الخطوة 2: إنشاء جداول الأبعاد
 1. أنشئ `Dim_Date` باستخدام DAX (`CALENDAR` + `ADDCOLUMNS`)
 2. أنشئ `Dim_Station` من القيم الفريدة (`DISTINCT`)
 3. أنشئ `Dim_Ticket` من `CROSSJOIN` للـ Class × Type
 4. أنشئ `Dim_Payment` و `Dim_Railcard` من القيم الفريدة
-
+<!-- slide -->
 ### الخطوة 3: إنشاء المفاتيح في الـ Fact Table
 1. أضف عمود `Purchase_Date_Key` = `FORMAT([Date of Purchase], "YYYYMMDD")`
 2. أضف عمود `Journey_Date_Key` = `FORMAT([Date of Journey], "YYYYMMDD")`
 3. أضف أعمدة المفاتيح الأخرى بناءً على `LOOKUPVALUE`
-
+<!-- slide -->
 ### الخطوة 4: إنشاء الأعمدة الأربعة الجديدة
 1. أنشئ `Time_Period` كـ Calculated Column
 2. أنشئ `Price_Band` كـ Calculated Column
 3. أنشئ `Booking_Window` كـ Calculated Column
 4. أنشئ `Revenue_Lost_Flag` كـ Calculated Column
-
+<!-- slide -->
 ### الخطوة 5: ربط العلاقات
 1. اذهب إلى **Model View**
 2. أنشئ العلاقات الـ 7 (5 Active + 2 Inactive)
 3. تأكد أن جميعها **One-to-Many** و **Single Direction**
 4. اختبر بـ Matrix visual بسيط
-
+<!-- slide -->
 ### الخطوة 6: إنشاء الـ Measures
 1. أنشئ مجلد `_Measures` في الـ Fact Table
 2. اكتب الـ Measures الأساسية (Revenue, OTP, إلخ)
 3. اختبر كل Measure مع Slicer مختلف
+````
 
 ---
 
