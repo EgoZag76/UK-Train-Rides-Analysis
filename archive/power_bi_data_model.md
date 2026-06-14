@@ -1,7 +1,7 @@
 # 🏗️ دليل بناء الـ Data Model في Power BI — Star Schema
 
 > **المشروع:** UK Train Rides Analysis  
-> **الأعمدة:** 18 أصلي + 4 ميزات جديدة (F10–F13)  
+> **الأعمدة:** 17 أصلي + 4 ميزات جديدة (F10–F13)  
 > **النموذج:** Star Schema (نجمة)
 
 ---
@@ -50,7 +50,6 @@ erDiagram
         decimal Price
         string Journey_Status
         string Refund_Request
-        string Reason_for_Delay
         string Time_Period
         string Price_Band
         string Booking_Window
@@ -116,7 +115,6 @@ erDiagram
 | `Price` | أصلي | Decimal | 💰 **المقياس الرئيسي** — سعر التذكرة (£) |
 | `Journey_Status` | أصلي | Text | حالة الرحلة (On Time / Delayed / Cancelled) |
 | `Refund_Request` | أصلي | Text | هل طُلب استرداد؟ (Yes / No) |
-| `Reason_for_Delay` | أصلي | Text | سبب التأخير أو الإلغاء (Weather, Signal Failure, etc.) |
 | `Time_Period` | ✨ **ميزة جديدة F10** | Text | فترة اليوم (Morning Peak / Midday / Evening Peak / Off-Peak) |
 | `Price_Band` | ✨ **ميزة جديدة F11** | Text | الفئة السعرية (Budget / Standard / Premium / Luxury) |
 | `Booking_Window` | ✨ **ميزة جديدة F12** | Text | نافذة الحجز (Same Day / Short / Medium / Long / Very Long) |

@@ -12,7 +12,7 @@
 
 ### 1.1 نظرة عامة على المشروع
 
-يحلل هذا المشروع **31,653 سجل معاملات للسكك الحديدية في المملكة المتحدة** (يناير — أبريل 2024) لاستخراج Insights تجارية عبر ثلاثة محاور استراتيجية: **Revenue Optimization** (تحسين الإيرادات)، **Operational Reliability** (الموثوقية التشغيلية)، و **Demand Intelligence** (تحليل الطلب). يجمع التحليل بين Data Engineering باستخدام Python و Dashboards التفاعلية في Power BI لتقديم منتج تحليلي متكامل لإدارة السكك الحديدية.
+يحلل هذا المشروع **31,653 سجل معاملات للسكك الحديدية في المملكة المتحدة** (يناير - أبريل 2024) لاستخراج Insights تجارية عبر ثلاثة محاور استراتيجية: **Revenue Optimization** (تحسين الإيرادات)، **Operational Reliability** (الموثوقية التشغيلية)، و **Demand Intelligence** (تحليل الطلب). يجمع التحليل بين Data Engineering باستخدام Python و Dashboards التفاعلية في Power BI لتقديم منتج تحليلي متكامل لإدارة السكك الحديدية.
 
 ### 1.2 سياق العمل (Business Context)
 
@@ -94,7 +94,7 @@
 ### 3.1 مواصفات الأعمدة الجديدة
 
 | # | العمود الجديد (New Column) | المنطق / المعادلة (Logic) | النوع | الغرض (Purpose) |
-|---|-----------|----------------|------|---------| 
+|---|-----------|----------------|------|---------|
 | F1 | `Booking_Lead_Days` | `Date of Journey − Date of Purchase` (بالأيام) | Integer | متى يقوم الركاب بالحجز مسبقًا؟ |
 | F2 | `Route` | `Departure Station + " → " + Arrival Destination` | Text | التحليل على مستوى المسار (Route-level) |
 | F3 | `Delay_Minutes` | إذا كان `Journey Status = "Delayed"`: `Actual Arrival Time − Arrival Time` (بالأيام). غير ذلك: `0` | Integer | قياس شدة التأخير |
@@ -112,7 +112,7 @@
 ### 3.2 قواعد التعامل مع القيم الفارغة (Null Handling Rules)
 
 | العمود | القاعدة | كود المعالجة |
-|--------|------|-----------| 
+|--------|------|-----------|
 | `Railcard` | استبدال `NaN` بـ `"None"` | `df['Railcard'].fillna('None')` |
 | `Delay_Minutes` | تعيين `0` للرحلات غير المتأخرة | منطق مبني في الحساب |
 | بقية الأعمدة | لا توجد قيم فارغة | تم التحقق — لا يتطلب إجراء |
@@ -152,7 +152,7 @@
 | D2 | أي يوم من أيام الأسبوع هو الأكثر ازدحاماً؟ | Column Chart |
 | D3 | ما هي ساعة المغادرة (Departure hour) الأكثر ازدحاماً؟ | Histogram |
 | D4 | كم من الوقت (أيام) يستغرقه الركاب عادةً للحجز مسبقاً؟ | Distribution Plot |
-| D5 | ما هو التقسيم بين مشتريات (Online vs Station) وما اتجاهه؟ | Stacked Area |
+| D5 | ما هو تقسيم بين مشتريات (Online vs Station) وما اتجاهه؟ | Stacked Area |
 | D6 | كيف يتوزع استخدام بطاقات الخصم (Railcard usage)؟ | Donut Chart |
 | D7 | هل يوجد فرق في الطلب بين عطلة نهاية الأسبوع وأيام العمل؟ | Grouped Bar |
 
@@ -169,7 +169,7 @@
 ## 5. نماذج التنبؤ (Forecasting Models)
 
 | النموذج | المتغير المستهدف (Target Variable) | الطريقة (Method) | المدى (Horizon) |
-|-------|----------------|--------|---------| 
+|-------|----------------|--------|---------|
 | **Forecast 1** | عدد الرحلات الشهرية | Linear Regression + ARIMA | مايو 2024 |
 | **Forecast 2** | الإيرادات اليومية | Time Series (Prophet/ARIMA) | مايو 2024 |
 | **Forecast 3** | انقسام الطلب على أنواع التذاكر | Proportional Trend Extrapolation | مايو 2024 |

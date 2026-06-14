@@ -1,9 +1,10 @@
-# 🚆 خطة التنفيذ — Power BI فقط (v2 — مُراجَعة)
+# 🚆 خطة التنفيذ — Power BI فقط (v2.1 — مُراجَعة)
 
 > **المشروع:** UK Train Rides Analysis  
-> **المنهجية:** Divide & Conquer — كل عضو صفحة Power BI  
+> **المنهجية:** Divide & Conquer — كل عضو صفحة Power BI (سردية موحدة - 4 أعضاء)  
 > **القاعدة الذهبية:** كل الشغل داخل Power BI. لا Python. لا Feature Engineering خارجي.  
-> **الأعمدة الجديدة:** 4 فقط (F10–F13) كـ Calculated Columns + أعمدة Sort مساعدة
+> **الأعمدة الأصلية:** 18 عمود أصلي (بما فيها Reason for Delay).  
+> **الأعمدة الجديدة:** 4 فقط (F10–F13) كـ Calculated Columns + أعمدة Sort مساعدة.
 
 ---
 
@@ -16,12 +17,13 @@
 | 1 | **استيراد البيانات** | Get Data → CSV → `UK Train Rides new.csv` |
 | 2 | **تنظيف في Power Query** | التواريخ → `Date`، الأوقات → `Time`، الأسعار → `Decimal` |
 | 3 | **معالجة Railcard Nulls** | Power Query: `Replace Values` → null → `"None"` |
-| 4 | **بناء Star Schema** | 5 Dimension Tables + 1 Fact Table |
-| 5 | **الأعمدة الأربعة الجديدة** | Calculated Columns (F10–F13) |
-| 6 | **أعمدة Sort المساعدة** | لترتيب Day_Name و Booking_Window |
-| 7 | **DAX Measures** | جميع المقاييس في مجلد `_Measures` |
-| 8 | **Weekend_Label** | عمود مساعد في Dim_Date لعرض "Weekend"/"Weekday" |
-| 9 | **نشر الملف** | رفع `.pbix` على GitHub |
+| 4 | **معالجة أسباب التأخير** | Power Query: دمج `"Weather Conditions"` و `"Weather"` في عمود `Reason for Delay` |
+| 5 | **بناء Star Schema** | 5 Dimension Tables + 1 Fact Table |
+| 6 | **الأعمدة الأربعة الجديدة** | Calculated Columns (F10–F13) |
+| 7 | **أعمدة Sort المساعدة** | لترتيب Day_Name و Booking_Window |
+| 8 | **DAX Measures** | جميع المقاييس في مجلد `_Measures` |
+| 9 | **Weekend_Label** | عمود مساعد في Dim_Date لعرض "Weekend"/"Weekday" |
+| 10 | **نشر الملف** | رفع `.pbix` على GitHub |
 
 → **Verify:** فتح Matrix visual بسيط — لو الأرقام ظهرت صح مع Slicer، الأساس سليم.
 
@@ -220,18 +222,18 @@ CALCULATE(
 
 ---
 
-## 📄 توزيع الصفحات
+## 📄 توزيع الصفحات (4 أعضاء - Eyad TL يغطي الصفحة الأولى والدمج)
 
 | العضو | الصفحة | العنوان |
 |-------|--------|---------|
-| **MA** | 1 | Executive Summary — ملخص الإدارة |
-| **MB** | 2 | Revenue Deep Dive — تفصيل الإيرادات |
-| **MC** | 3 | Operations & Reliability — العمليات |
-| **MD** | 4 | Demand & Booking Patterns — الطلب |
+| **TL (Eyad Ahmed)** | 1 | Executive Summary — ملخص الإدارة |
+| **MB (Ahmed Ali)** | 2 | Revenue Deep Dive — تفصيل الإيرادات |
+| **MC (Mostafa Sabry)** | 3 | Operations & Reliability — العمليات |
+| **MD (Rawan Tarek)** | 4 | Demand & Booking Patterns — الطلب |
 
 ---
 
-## 📄 صفحة 1 — MA: Executive Summary
+## 📄 صفحة 1 — TL: Executive Summary
 
 **الهدف:** نظرة عليا على أداء الشبكة.
 
@@ -241,14 +243,18 @@ CALCULATE(
 | 2 | **Line Chart** (Dual Axis) | `Dim_Date[Month_Name]` → X | Y1: `Total_Revenue` / Y2: `Total_Rides` |
 | 3 | **Bar Chart** | `Dim_Station[Station_Name]` → Y | `Revenue_by_Departure` (Top 10) |
 | 4 | **Stacked Bar** | `Dim_Date[Month_Name]` → X, `Journey Status` → Legend | `Total_Rides` |
-| 5 | **Slicer** | `Dim_Date[Month_Name]` | — |
-| 6 | **Slicer** | `Dim_Date[Weekend_Label]` | — |
+| 5 | **Bubble Map** | `Dim_Station[Station_Name]` → Location | Size: `Total_Rides`, Tooltips: `Total_Revenue`, `On_Time_Pct` |
+| 6 | **Slicer** | `Dim_Date[Month_Name]` | — |
+| 7 | **Slicer** | `Dim_Date[Weekend_Label]` | — |
 
-**التصميم:** أزرق داكن + أبيض | Segoe UI | KPIs في الأعلى
+> ✅ **تغييرات:** إضافة Station Bubble Map / Donut → Stacked Bar (أوضح لـ 3 قيم) / Line Chart بـ Secondary Y-Axis / Weekend_Label بدل TRUE/FALSE / `Revenue_by_Departure` بدل `Total_Revenue` لحل مشكلة الـ Role-Playing
+
+**التصميم:** أزرق داكن + أبيض (Azure Rail Glassmorphism الفاتح) | Segoe UI | KPIs في الأعلى.
+*ملاحظة تقنية:* الـ Glassmorphism يتم كصورة خلفية ثابتة لعدم وجود backdrop blur أصلي في Power BI.
 
 ---
 
-## 📄 صفحة 2 — MB: Revenue Deep Dive
+## 📄 صفحة 2 — MB (Ahmed Ali): Revenue Deep Dive
 
 **الهدف:** تحليل مصادر الإيرادات والخسائر.
 
@@ -258,33 +264,38 @@ CALCULATE(
 | 2 | **Stacked Bar** | `Price_Band` → X, `Month_Name` → Legend | `Total_Revenue` |
 | 3 | **Matrix** + Conditional Formatting | `Ticket_Class` × `Ticket_Type` | `Total_Revenue`, `Total_Rides` |
 | 4 | **Column Chart** (Filtered) | `Railcard_Type` → X (بدون "None") | `Total_Revenue` |
-| 5 | **Treemap** | `Booking_Window` → Group | `Total_Revenue` |
+| 5 | **Treemap** | `Route` → `Ticket_Class` → `Ticket_Type` | `Total_Revenue` |
 | 6 | **Slicer** | `Price_Band` | — |
 | 7 | **Slicer** | `Dim_Date[Month_Name]` | — |
 
-**التصميم:** أخضر داكن + ذهبي | الأحمر للخسائر فقط (باعتدال)
+> ✅ **تغييرات:** إعادة Route للتحليل بدلاً من Booking_Window في الـ Treemap / Matrix + Data Bars/Color Scale / Railcard chart يستبعد "None" / الاسم `Refunded_Revenue` أدق
+
+**التصميم:** ألوان Glassmorphism الفاتح مع تدرج أخضر/أزرق للإيرادات والأحمر للخسائر بحذر.
 
 ---
 
-## 📄 صفحة 3 — MC: Operations & Reliability
+## 📄 صفحة 3 — MC (Mostafa Sabry): Operations & Reliability
 
 **الهدف:** قياس الموثوقية التشغيلية.
 
 | # | Visual | الحقول | Measure |
 |---|--------|--------|---------|
 | 1 | **KPI Card** × 2 | — | `On_Time_Pct`, `Cancellation_Rate` |
-| 2 | **Gauge** | — | `On_Time_Pct` (Target = 90%) |
+| 2 | **Gauge** | — | `On_Time_Pct` (Target = 90% - قرار سردي واعٍ مقابل 86.8% الفعلي) |
 | 3 | **Bar Chart** | `Dim_Station[Station_Name]` → Y | `Cancellation_Rate` |
 | 4 | **Column Chart** | `Dim_Date[Month_Name]` → X | `Avg_Delay_Min` |
-| 5 | **Waterfall Chart** | Journey Status categories | `Total_Rides` → On Time → Delayed → Cancelled |
-| 6 | **Table** | `Departure Station` + `Arrival Destination` + `Journey Status` | `Total_Rides`, `On_Time_Pct` |
-| 7 | **Slicer** | `Fact_Rides[Journey Status]` | — |
+| 5 | **100% Stacked Bar Chart** | `Dim_Date[Month_Name]` → X, `Journey Status` → Legend | `Total_Rides` |
+| 6 | **Bar/Donut Chart** | `Fact_Rides[Reason_for_Delay]` → Y/Legend | `Total_Rides` |
+| 7 | **Table** | `Departure Station` + `Arrival Destination` + `Journey Status` | `Total_Rides`, `On_Time_Pct` |
+| 8 | **Slicer** | `Fact_Rides[Journey Status]` | — |
+
+> ✅ **تغييرات:** تبديل الـ Waterfall بـ 100% Stacked Bar Chart لتوضيح التوزيع الشهري / إضافة مرئية لأسباب التأخير والالغاء Reason for Delay / المحافظة على target الـ On-Time عند 90% كقرار سردي.
 
 **التصميم:** رمادي + أحمر (تأخير) + أخضر (On Time) | Gauge مركزي
 
 ---
 
-## 📄 صفحة 4 — MD: Demand & Booking Patterns
+## 📄 صفحة 4 — MD (Rawan Tarek): Demand & Booking Patterns
 
 **الهدف:** فهم سلوك الحجز وأنماط الطلب.
 
@@ -294,11 +305,13 @@ CALCULATE(
 | 2 | **Heatmap (Matrix)** | `Month_Name` × `Day_Name` + Color Scale | `Total_Rides` |
 | 3 | **Bar Chart** | `Time_Period` → Y (Sorted) | `Total_Rides` |
 | 4 | **Bar Chart** | `Booking_Window` → Y (Sorted) | `Total_Rides` |
-| 5 | **Scatter Chart** | X: `Booking_Window` / Y: `Avg_Ticket_Price` | Color: `Ticket Type` |
+| 5 | **Scatter Chart** | X: `Booking_Lead_Days` (Numerical) / Y: `Avg_Ticket_Price` | Color: `Ticket Type`, Size: `Total_Rides` |
 | 6 | **Slicer** | `Time_Period` | — |
 | 7 | **Slicer** | `Weekend_Label` | — |
 
-**التصميم:** بنفسجي داكن + برتقالي | Heatmap بطيف أزرق متدرج
+> ✅ **تغييرات:** جعل محور X رقمي في الـ Scatter وهو Booking_Lead_Days لتحسين قراءة الاتجاه / جميع الحقول النصية مرتبة بـ Sort Columns / Heatmap بطيف لوني أزرق.
+
+**التصميم:** ألوان Glassmorphism الفاتحة مع درجات البنفسجي والأزرق للطلب.
 
 ---
 
@@ -322,7 +335,7 @@ CALCULATE(
 |-------|--------|---------|
 | 1–2 | Star Schema + Columns + Sort Orders + Measures | **TL** |
 | 3 | رفع `Foundation_v1.pbix` على GitHub | **TL** |
-| 3–5 | كل عضو يصمم صفحته | **MA, MB, MC, MD** |
+| 3–5 | كل عضو يصمم صفحته | **TL, MB, MC, MD** |
 | 6 | مراجعة TL + تنسيق Global Theme | **TL** |
 | 7 | التسليم النهائي `UK_Trains_Dashboard.pbix` | **TL** |
 
@@ -331,14 +344,14 @@ CALCULATE(
 ## ✅ Checklist
 
 - [ ] TL: Star Schema (5 Dim + 1 Fact) مع العلاقات
-- [ ] TL: `Full_Date` + `Weekend_Label` موجودين في Dim_Date
+- [ ] TL: `Full_Date` + `Weekend_Label` موجودين in Dim_Date
 - [ ] TL: Sort Orders مضبوطة (Day_Name, Month_Name, Booking_Window, Time_Period)
 - [ ] TL: 4 Calculated Columns (F10–F13) + Sort columns
 - [ ] TL: جميع Measures في `_Measures` (شاملة `Revenue_by_Departure`)
-- [ ] MA: صفحة 1 (6 Visuals + Dual Y-Axis على Line Chart)
-- [ ] MB: صفحة 2 (7 Visuals + Matrix بـ Conditional Formatting)
-- [ ] MC: صفحة 3 (7 Visuals + Waterfall بدل Pie)
-- [ ] MD: صفحة 4 (7 Visuals + Scatter Chart + Sort Orders)
+- [ ] TL: صفحة 1 (7 Visuals + Dual Y-Axis على Line Chart + Station Map)
+- [ ] MB: صفحة 2 (7 Visuals + Matrix بـ Conditional Formatting + Route Treemap)
+- [ ] MC: صفحة 3 (8 Visuals + 100% Stacked Bar + Reason for Delay)
+- [ ] MD: صفحة 4 (7 Visuals + Numerical Scatter Chart)
 - [ ] TL: مراجعة نهائية + Global Theme
 
 ---
