@@ -22,7 +22,7 @@
 
 | المحور | الهدف | السؤال الرئيسي |
 |--------|------|-------------|
-| 💰 **الإيرادات (Revenue)** | تعظيم إيرادات التذاكر وتحديد فرص التسعير | ما هي المسارات وأنواع التذاكر والأوقات التي تدر أكبر إيرادات؟ وأين تُفقد الأموال? |
+| 💰 **الإيرادات (Revenue)** | تعظيم إيرادات التذاكر وتحديد فرص التسعير | ما هي المسارات وأنواع التذاكر والأوقات التي تدر أكبر إيرادات؟ وأين تُفقد الأموال؟ |
 | ⏱️ **العمليات (Operations)** | تحسين الأداء في الوقت المحدد (On-Time Performance) وتقليل الإلغاءات | ما هي المسارات/المحطات الأقل موثوقية؟ وما هي العوامل المرتبطة بالتأخير؟ |
 | 📈 **الطلب (Demand)** | فهم سلوك الحجز والتنبؤ بالطلب المستقبلي | متى يحجز الركاب؟ ما الذي يحرك أوقات الذروة؟ هل يمكننا التنبؤ (Forecasting) بشهر مايو 2024؟ |
 
@@ -110,7 +110,7 @@
 | F9 | `Is_Weekend` | `Day_of_Week ∈ {Saturday, Sunday}` → `True/False` | Boolean | علم (Flag) لـ عطلة نهاية الأسبوع |
 | F10 | `Time_Period` | بناءً على `Departure_Hour`: `06-09` → `"Morning Peak"`, `10-15` → `"Midday"`, `16-19` → `"Evening Peak"`, غير ذلك → `"Off-Peak"` | Text | تصنيف فترة الطلب |
 | F11 | `Price_Band` | `≤10` → `"Budget"`, `≤30` → `"Standard"`, `≤60` → `"Premium"`, `>60` → `"Luxury"` | Text | تقسيم الإيرادات (Revenue segmentation) |
-| F12 | `Booking_Window` | بناءً on `Booking_Lead_Days`: `0` → `"Same Day"`, `1-3` → `"Short"`, `4-7` → `"Medium"`, `8-14` → `"Long"`, `>14` → `"Very Long"` | Text | سلوك الحجز المسبق |
+| F12 | `Booking_Window` | بناءً على `Booking_Lead_Days`: `0` → `"Same Day"`, `1-3` → `"Short"`, `4-7` → `"Medium"`, `8-14` → `"Long"`, `>14` → `"Very Long"` | Text | سلوك الحجز المسبق |
 | F13 | `Revenue_Lost_Flag` | `Journey Status = "Cancelled"` و `Refund Request = "Yes"` → `True` | Boolean | تتبع خسائر الإيرادات (Revenue loss) |
 
 ### 3.2 قواعد التعامل مع القيم الفارغة والتنظيف (Null Handling & Cleaning Rules)
@@ -228,4 +228,4 @@
 ---
 
 > **حالة الوثيقة:** ✅ معتمدة للتنفيذ (Approved for Implementation)  
-> **الخطوة التالية:** راجع `Team_Implementation_Plan.md` لمعرفة جدول التنفيذ الأسبوعي وتقسيم المهام.
+> **الخطوة التالية:** راجع `docs/New_Implementation_Plan.rtl.md` لمعرفة جدول التنفيذ الأسبوعي وتقسيم المهام.
