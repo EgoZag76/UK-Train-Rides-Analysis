@@ -4,7 +4,7 @@
 > **المنهجية:** Divide & Conquer — كل عضو صفحة Power BI (سردية موحدة - 4 أعضاء)  
 > **القاعدة الذهبية:** كل الشغل داخل Power BI. لا Python. لا Feature Engineering خارجي.  
 > **الأعمدة الأصلية:** 18 عمود أصلي (بما فيها Reason for Delay).  
-> **الأعمدة الجديدة:** 4 فقط (F10–F13) كـ Calculated Columns + أعمدة Sort مساعدة.
+> **الميزات الجديدة:** 9 (F10–F18) كـ Calculated Columns + أعمدة Sort مساعدة.
 
 ---
 
@@ -19,7 +19,7 @@
 | 3 | **معالجة Railcard Nulls** | Power Query: `Replace Values` → null → `"None"` |
 | 4 | **معالجة أسباب التأخير** | Power Query: دمج `"Weather Conditions"` و `"Weather"` في عمود `Reason for Delay` |
 | 5 | **بناء Star Schema** | 5 Dimension Tables + 1 Fact Table |
-| 6 | **الأعمدة الأربعة الجديدة** | Calculated Columns (F10–F13) |
+| 6 | **الأعمدة التسع الجديدة** | Calculated Columns (F10–F18) |
 | 7 | **أعمدة Sort المساعدة** | لترتيب Day_Name و Booking_Window |
 | 8 | **DAX Measures** | جميع المقاييس في مجلد `_Measures` |
 | 9 | **Weekend_Label** | عمود مساعد في Dim_Date لعرض "Weekend"/"Weekday" |
@@ -88,7 +88,7 @@ Dim_Railcard = DISTINCT(SELECTCOLUMNS(Fact_Rides, "Railcard_Type",  Fact_Rides[R
 
 ---
 
-### 0.2 الأعمدة الأربعة الجديدة (Calculated Columns)
+### 0.2 الأعمدة التسع الجديدة (Calculated Columns — F10–F18)
 
 #### F10 — Time_Period
 ```dax
@@ -155,6 +155,21 @@ SWITCH(Fact_Rides[Time_Period],
 
 ثم: `Booking_Window` → Sort By → `Booking_Window_Sort`  
 و `Time_Period` → Sort By → `Time_Period_Sort`
+
+---
+
+### 0.2b الميزات الجديدة (F14–F18) — Spec فقط
+
+> [!IMPORTANT]
+> الأكواد (DAX) لـ F14–F18 تُكتب في **مرحلة التنفيذ**. هذا القسم يصف المنطق فقط.
+
+| # | Feature | النوع | المنطق (بالكلمات) | الغرض |
+|---|---------|------|-------------------|-------|
+| F14 | `Route` | Text | دمج Departure Station و Arrival Destination بفاصل " → " | أهم بُعد تحليلي — Top Routes Bar Chart و Route Treemap |
+| F15 | `Booking_Lead_Days` | Integer | الفرق بالأيام بين تاريخ الشراء والرحلة (بحد أدنى 0) | محور X رقمي في Scatter Chart (صفحة 4) |
+| F16 | `Delay_Minutes` | Integer | دقائق التأخير للرحلات المتأخرة (مع معالجة midnight-safe) | Histogram + متوسط دقيق (صفحة 3) |
+| F17 | `Departure_Hour` | Integer | الساعة 0–23 من وقت المغادرة | تحليل ذروة بالساعة (صفحة 4) |
+| F18 | `Delay_Category` | Text | On Time / Minor (≤15 دقيقة) / Major (>15 دقيقة) | تصنيف سريع للتأخير (صفحة 3) |
 
 ---
 
@@ -239,15 +254,15 @@ CALCULATE(
 
 | # | Visual | الحقول | Measure |
 |---|--------|--------|---------|
-| 1 | **KPI Card** × 3 | — | `Total_Revenue`, `Total_Rides`, `On_Time_Pct` |
-| 2 | **Line Chart** (Dual Axis) | `Dim_Date[Month_Name]` → X | Y1: `Total_Revenue` / Y2: `Total_Rides` |
+| 1 | **KPI Card** × 5 | — | `Total_Revenue`, `Total_Rides`, `On_Time_Pct`, `Avg_Ticket_Price`, `Cancellation_Rate` |
+| 2 | **Line Chart** (Dual Axis) | `Dim_Date` — **أسبوعي أو يومي** (مش شهري بـ 4 نقاط) → X | Y1: `Total_Revenue` / Y2: `Total_Rides` |
 | 3 | **Bar Chart** | `Dim_Station[Station_Name]` → Y | `Revenue_by_Departure` (Top 10) |
-| 4 | **Stacked Bar** | `Dim_Date[Month_Name]` → X, `Journey Status` → Legend | `Total_Rides` |
-| 5 | **Bubble Map** | `Dim_Station[Station_Name]` → Location | Size: `Total_Rides`, Tooltips: `Total_Revenue`, `On_Time_Pct` |
+| 4 | **100% Stacked Bar** | `Dim_Date[Month_Name]` → X, `Journey Status` → Legend | `Total_Rides` |
+| 5 | **Station Map** (Bubble/Filled) | `Dim_Station[Station_Name]` → Location | Size: `Total_Rides`, Tooltips: `Total_Revenue`, `On_Time_Pct` |
 | 6 | **Slicer** | `Dim_Date[Month_Name]` | — |
 | 7 | **Slicer** | `Dim_Date[Weekend_Label]` | — |
 
-> ✅ **تغييرات:** إضافة Station Bubble Map / Donut → Stacked Bar (أوضح لـ 3 قيم) / Line Chart بـ Secondary Y-Axis / Weekend_Label بدل TRUE/FALSE / `Revenue_by_Departure` بدل `Total_Revenue` لحل مشكلة الـ Role-Playing
+> ✅ **تغييرات v2.1:** 5 KPI Cards (أُضيف Avg_Ticket_Price و Cancellation_Rate) / Line Chart أسبوعي/يومي بدل شهري / 100% Stacked Bar لتوضيح Journey Status / Station Map / Weekend_Label Slicer
 
 **التصميم:** أزرق داكن + أبيض (Azure Rail Glassmorphism الفاتح) | Segoe UI | KPIs في الأعلى.
 *ملاحظة تقنية:* الـ Glassmorphism يتم كصورة خلفية ثابتة لعدم وجود backdrop blur أصلي في Power BI.
@@ -261,14 +276,15 @@ CALCULATE(
 | # | Visual | الحقول | Measure |
 |---|--------|--------|---------|
 | 1 | **KPI Card** × 2 | — | `Refunded_Revenue`, `Avg_Ticket_Price` |
-| 2 | **Stacked Bar** | `Price_Band` → X, `Month_Name` → Legend | `Total_Revenue` |
+| 2 | **Bar Chart** | `Route` → Y (Top 10) | `Total_Revenue` |
 | 3 | **Matrix** + Conditional Formatting | `Ticket_Class` × `Ticket_Type` | `Total_Revenue`, `Total_Rides` |
-| 4 | **Column Chart** (Filtered) | `Railcard_Type` → X (بدون "None") | `Total_Revenue` |
-| 5 | **Treemap** | `Route` → `Ticket_Class` → `Ticket_Type` | `Total_Revenue` |
-| 6 | **Slicer** | `Price_Band` | — |
-| 7 | **Slicer** | `Dim_Date[Month_Name]` | — |
+| 4 | **Stacked Bar** | `Price_Band` → X, `Month_Name` → Legend | `Total_Revenue` |
+| 5 | **Column Chart** (Filtered) | `Railcard_Type` → X (بدون "None") | `Total_Revenue` |
+| 6 | **Treemap** | `Route` → `Ticket_Class` → `Ticket_Type` | `Total_Revenue` |
+| 7 | **Slicer** | `Price_Band` | — |
+| 8 | **Slicer** | `Dim_Date[Month_Name]` | — |
 
-> ✅ **تغييرات:** إعادة Route للتحليل بدلاً من Booking_Window في الـ Treemap / Matrix + Data Bars/Color Scale / Railcard chart يستبعد "None" / الاسم `Refunded_Revenue` أدق
+> ✅ **تغييرات v2.1:** أُضيف Top 10 Routes by Revenue Bar Chart (عبر `Route` F14) / Treemap يستخدم Route بدل Booking_Window / Matrix + Data Bars/Color Scale / Railcard chart يستبعد "None"
 
 **التصميم:** ألوان Glassmorphism الفاتح مع تدرج أخضر/أزرق للإيرادات والأحمر للخسائر بحذر.
 
@@ -282,14 +298,13 @@ CALCULATE(
 |---|--------|--------|---------|
 | 1 | **KPI Card** × 2 | — | `On_Time_Pct`, `Cancellation_Rate` |
 | 2 | **Gauge** | — | `On_Time_Pct` (Target = 90% - قرار سردي واعٍ مقابل 86.8% الفعلي) |
-| 3 | **Bar Chart** | `Dim_Station[Station_Name]` → Y | `Cancellation_Rate` |
-| 4 | **Column Chart** | `Dim_Date[Month_Name]` → X | `Avg_Delay_Min` |
+| 3 | **Donut/Bar Chart** | `Fact_Rides[Reason_for_Delay]` → Y/Legend | `Total_Rides` |
+| 4 | **Histogram** | `Delay_Minutes` (F16) | توزيع دقائق التأخير |
 | 5 | **100% Stacked Bar Chart** | `Dim_Date[Month_Name]` → X, `Journey Status` → Legend | `Total_Rides` |
-| 6 | **Bar/Donut Chart** | `Fact_Rides[Reason_for_Delay]` → Y/Legend | `Total_Rides` |
-| 7 | **Table** | `Departure Station` + `Arrival Destination` + `Journey Status` | `Total_Rides`, `On_Time_Pct` |
-| 8 | **Slicer** | `Fact_Rides[Journey Status]` | — |
+| 6 | **Bar Chart** | `Route` (Top 10 Worst) → Y | Delay/Cancellation Rate |
+| 7 | **Slicer** | `Fact_Rides[Journey Status]` | — |
 
-> ✅ **تغييرات:** تبديل الـ Waterfall بـ 100% Stacked Bar Chart لتوضيح التوزيع الشهري / إضافة مرئية لأسباب التأخير والالغاء Reason for Delay / المحافظة على target الـ On-Time عند 90% كقرار سردي.
+> ✅ **تغييرات v2.1:** أُضيف Histogram لـ Delay_Minutes (F16) / Reason for Delay Donut/Bar عبر العمود المُعاد استيراده / 100% Stacked Bar بدل Waterfall / Top Worst Routes عبر `Route` (F14)
 
 **التصميم:** رمادي + أحمر (تأخير) + أخضر (On Time) | Gauge مركزي
 
@@ -303,13 +318,13 @@ CALCULATE(
 |---|--------|--------|---------|
 | 1 | **Column Chart** | `Day_Name` → X (Sorted by Day_of_Week) | `Total_Rides` |
 | 2 | **Heatmap (Matrix)** | `Month_Name` × `Day_Name` + Color Scale | `Total_Rides` |
-| 3 | **Bar Chart** | `Time_Period` → Y (Sorted) | `Total_Rides` |
+| 3 | **Bar Chart** | `Departure_Hour` (0–23, F17) **أو** `Time_Period` → Y (Sorted) | `Total_Rides` |
 | 4 | **Bar Chart** | `Booking_Window` → Y (Sorted) | `Total_Rides` |
-| 5 | **Scatter Chart** | X: `Booking_Lead_Days` (Numerical) / Y: `Avg_Ticket_Price` | Color: `Ticket Type`, Size: `Total_Rides` |
+| 5 | **Scatter Chart** | X: `Booking_Lead_Days` (F15, Numerical) / Y: `Avg_Ticket_Price` | Color: `Ticket Type`, Size: `Total_Rides` |
 | 6 | **Slicer** | `Time_Period` | — |
 | 7 | **Slicer** | `Weekend_Label` | — |
 
-> ✅ **تغييرات:** جعل محور X رقمي في الـ Scatter وهو Booking_Lead_Days لتحسين قراءة الاتجاه / جميع الحقول النصية مرتبة بـ Sort Columns / Heatmap بطيف لوني أزرق.
+> ✅ **تغييرات v2.1:** Departure_Hour (F17) كبديل أو مكمّل لـ Time_Period / محور X رقمي في الـ Scatter عبر Booking_Lead_Days (F15) / Heatmap بطيف لوني أزرق
 
 **التصميم:** ألوان Glassmorphism الفاتحة مع درجات البنفسجي والأزرق للطلب.
 
@@ -346,11 +361,11 @@ CALCULATE(
 - [ ] TL: Star Schema (5 Dim + 1 Fact) مع العلاقات
 - [ ] TL: `Full_Date` + `Weekend_Label` موجودين in Dim_Date
 - [ ] TL: Sort Orders مضبوطة (Day_Name, Month_Name, Booking_Window, Time_Period)
-- [ ] TL: 4 Calculated Columns (F10–F13) + Sort columns
+- [ ] TL: 9 Calculated Columns (F10–F18) + Sort columns
 - [ ] TL: جميع Measures في `_Measures` (شاملة `Revenue_by_Departure`)
-- [ ] TL: صفحة 1 (7 Visuals + Dual Y-Axis على Line Chart + Station Map)
-- [ ] MB: صفحة 2 (7 Visuals + Matrix بـ Conditional Formatting + Route Treemap)
-- [ ] MC: صفحة 3 (8 Visuals + 100% Stacked Bar + Reason for Delay)
+- [ ] TL: صفحة 1 (7 Visuals + 5 KPI Cards + Dual Y-Axis على Line Chart + Station Map)
+- [ ] MB: صفحة 2 (8 Visuals + Top 10 Routes Bar + Matrix بـ Conditional Formatting + Route Treemap)
+- [ ] MC: صفحة 3 (7 Visuals + Histogram + Reason for Delay + 100% Stacked Bar + Top Worst Routes)
 - [ ] MD: صفحة 4 (7 Visuals + Numerical Scatter Chart)
 - [ ] TL: مراجعة نهائية + Global Theme
 
@@ -375,4 +390,4 @@ CALCULATE(
 | 13 | `Total_Revenue_Lost` اسم غير دقيق | ✅ سُمّي `Refunded_Revenue` |
 | 14 | لا يوجد `Revenue_by_Departure` | ✅ أُضيف measure بـ TREATAS |
 
-> **حالة الوثيقة:** ✅ v2 — مُراجَعة وجاهزة للتنفيذ
+> **حالة الوثيقة:** ✅ v2.1 — مُراجَعة وجاهزة للتنفيذ (9 Features / 18 عمود أصلي)

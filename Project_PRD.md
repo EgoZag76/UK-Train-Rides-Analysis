@@ -24,15 +24,15 @@
 |--------|------|-------------|
 | 💰 **الإيرادات (Revenue)** | تعظيم إيرادات التذاكر وتحديد فرص التسعير | ما هي المسارات وأنواع التذاكر والأوقات التي تدر أكبر إيرادات؟ وأين تُفقد الأموال؟ |
 | ⏱️ **العمليات (Operations)** | تحسين الأداء في الوقت المحدد (On-Time Performance) وتقليل الإلغاءات | ما هي المسارات/المحطات الأقل موثوقية؟ وما هي العوامل المرتبطة بالتأخير؟ |
-| 📈 **الطلب (Demand)** | فهم سلوك الحجز والتنبؤ بالطلب المستقبلي | متى يحجز الركاب؟ ما الذي يحرك أوقات الذروة؟ هل يمكننا التنبؤ (Forecasting) بشهر مايو 2024؟ |
+| 📈 **الطلب (Demand)** | فهم سلوك الحجز والتنبؤ بالطلب المستقبلي | متى يحجز الركاب؟ ما الذي يحرك أوقات الذروة؟ هل يمكننا التنبؤ (Forecasting) بشهر مايو 2024? |
 
 ### 1.4 معايير النجاح (Success Criteria)
 
 | المقياس (Metric) | الهدف (Target) |
 |--------|--------|
 | Data Completeness | معالجة 100% من القيم الفارغة (Nulls)، وتحليل جميع الأعمدة الـ 18 (بما فيها أسباب التأخير) |
-| Feature Engineering | إنشاء 4 أعمدة مشتقة جديدة (F10–F13) داخل Power BI كـ Calculated Columns |
-| Analysis Depth | الإجابة على الأسئلة التحليلية المطلوبة باستخدام مرئيات Power BI |
+| Feature Engineering | إنشاء 9 أعمدة مشتقة جديدة (F10–F18) داخل Power BI كـ Calculated Columns |
+| Analysis Depth | الإجابة على الأسئسة التحليلية المطلوبة باستخدام مرئيات Power BI |
 | Dashboard Quality | 4 صفحات تفاعلية أساسية في Power BI بتصميم متناسق (Azure Rail Glassmorphism) |
 | Forecasting | تفعيل التنبؤ المدمج في Power BI (Built-in Forecast) للرحلات والإيرادات كخيار استكشافي |
 | Documentation | دليل بناء الـ Data Model، ودليل التصميم، ودليل البدء السريع للفريق |
@@ -95,23 +95,19 @@
 
 > **الفلسفة:** إنشاء أعمدة جديدة تحول البيانات الخام إلى أبعاد تحليلية. يجب أن يجيب كل عمود جديد على الأقل على سؤال تجاري واحد لا يمكن للبيانات الأصلية الإجابة عليه مباشرةً.
 
-### 3.1 مواصفات الأعمدة الجديدة
+### 3.1 مواصفات الأعمدة الجديدة (9 ميزات - F10 إلى F18)
 
 | # | العمود الجديد (New Column) | المنطق / المعادلة (Logic) | النوع | الغرض (Purpose) |
 |---|-----------|----------------|------|---------|
-| F1 | `Booking_Lead_Days` | `Date of Journey − Date of Purchase` (بالأيام) | Integer | متى يقوم الركاب بالحجز مسبقًا؟ |
-| F2 | `Route` | `Departure Station + " → " + Arrival Destination` | Text | التحليل على مستوى المسار (Route-level) |
-| F3 | `Delay_Minutes` | إذا كان `Journey Status = "Delayed"`: `Actual Arrival Time − Arrival Time` (بالدقائق). غير ذلك: `0` | Integer | قياس شدة التأخير |
-| F4 | `Delay_Category` | إذا `0` → `"On Time"`, `≤ 15` → `"Minor (≤15min)"`, `> 15` → `"Major (>15min)"` | Text | تصنيف التأخير للتحليل |
-| F5 | `Journey_Duration_Min` | `Arrival Time − Departure Time` (بالدقائق) | Integer | مدة الرحلة المخطط لها |
-| F6 | `Departure_Hour` | استخراج الساعة من `Departure Time` (0–23) | Integer | تحليل الذروة بالساعة |
-| F7 | `Day_of_Week` | `Date of Journey.dayofweek` → `Monday..Sunday` | Text | أنماط أيام الأسبوع مقابل عطلة نهاية الأسبوع |
-| F8 | `Month` | `Date of Journey.month_name()` → `January..April` | Text | تحليل الاتجاه الشهري (Monthly trend) |
-| F9 | `Is_Weekend` | `Day_of_Week ∈ {Saturday, Sunday}` → `True/False` | Boolean | علم (Flag) لـ عطلة نهاية الأسبوع |
 | F10 | `Time_Period` | بناءً على `Departure_Hour`: `06-09` → `"Morning Peak"`, `10-15` → `"Midday"`, `16-19` → `"Evening Peak"`, غير ذلك → `"Off-Peak"` | Text | تصنيف فترة الطلب |
 | F11 | `Price_Band` | `≤10` → `"Budget"`, `≤30` → `"Standard"`, `≤60` → `"Premium"`, `>60` → `"Luxury"` | Text | تقسيم الإيرادات (Revenue segmentation) |
 | F12 | `Booking_Window` | بناءً على `Booking_Lead_Days`: `0` → `"Same Day"`, `1-3` → `"Short"`, `4-7` → `"Medium"`, `8-14` → `"Long"`, `>14` → `"Very Long"` | Text | سلوك الحجز المسبق |
 | F13 | `Revenue_Lost_Flag` | `Journey Status = "Cancelled"` و `Refund Request = "Yes"` → `True` | Boolean | تتبع خسائر الإيرادات (Revenue loss) |
+| F14 | `Route` | دمج محطتي المغادرة والوصول بفاصل " → " | Text | التحليل على مستوى المسار (Route-level) |
+| F15 | `Booking_Lead_Days` | الفرق بالأيام بين تاريخ الشراء وتاريخ الرحلة (بحد أدنى 0) | Integer | حساب أيام المهلة والـ Scatter Chart |
+| F16 | `Delay_Minutes` | دقائق التأخير للرحلات المتأخرة فقط (مع معالجة عبور منتصف الليل) | Integer | قياس شدة التأخير والـ Histogram |
+| F17 | `Departure_Hour` | استخراج الساعة (0–23) من وقت المغادرة | Integer | تحليل الذروة بالساعة |
+| F18 | `Delay_Category` | تصنيف: On Time / Minor (≤15 دقيقة) / Major (>15 دقيقة) | Text | تصنيف التأخير للتحليل والفرز السريع |
 
 ### 3.2 قواعد التعامل مع القيم الفارغة والتنظيف (Null Handling & Cleaning Rules)
 

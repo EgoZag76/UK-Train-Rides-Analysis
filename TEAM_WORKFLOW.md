@@ -15,7 +15,7 @@
 
 ### الـ Deliverables:
 1. ✅ Data Model كامل (Star Schema)
-2. ✅ Executive Summary Page (KPI Cards + Line Chart + Station Bar Chart + Stacked Bar + Station Bubble Map)
+2. ✅ Executive Summary Page (5 KPI Cards + Line Chart + Station Bar Chart + 100% Stacked Bar + Station Map)
 3. ✅ Forecasting Page (اختياري - مدمج في Power BI)
 4. ✅ Report Theme JSON (Azure Rail Glassmorphism الفاتح)
 5. ✅ Page Navigation System
@@ -29,19 +29,20 @@
 - **Dashboard Page:** Revenue Deep Dive
 
 ### الـ Deliverables:
-1. Revenue breakdown by Departure Station (Bar Chart)
+1. Revenue by Top 10 Routes (Bar Chart via `Route` F14)
 2. Ticket Class × Ticket Type Revenue Matrix (with Data Bars)
 3. Revenue Treemap (Route → Class → Type)
-4. Refund Analysis (Rate + Trend)
-5. Month-over-Month Revenue Change (with ▲▼ indicators)
-6. Reference Lines (Average Revenue per Station)
+4. Stacked Bar (Price_Band × Month Revenue)
+5. Railcard Revenue (Filtered, excluding "None")
+6. Month-over-Month Revenue Change (with ▲▼ indicators)
 
 ### الـ Visuals المطلوبة:
-- Clustered Bar Chart (Revenue by Station)
-- Matrix with Conditional Formatting
+- Bar Chart (Revenue by Top 10 Routes)
+- Matrix with Conditional Formatting (Ticket Class × Ticket Type)
 - Treemap (Route → Ticket Class → Ticket Type)
-- Line Chart (Revenue Trend)
-- Ribbon Chart (Station Ranking over Time)
+- Stacked Bar (Price_Band × Month)
+- Column Chart (Railcard Revenue, filtered)
+- KPI Cards (× 2: Refunded_Revenue + Avg_Ticket_Price)
 
 ---
 
@@ -52,19 +53,19 @@
 
 ### الـ Deliverables:
 1. On-Time Performance Rate (Gauge with 90% Target - الفعلي 86.8% قرار سردي واعٍ)
-2. Delay Root Cause Analysis / أسباب التأخير والإلغاء (Bar/Donut Chart for Reason for Delay)
-3. Cancellation Rate Tracking (Alert-Style KPI)
+2. Delay Root Cause Analysis / أسباب التأخير والإلغاء (Donut/Bar Chart for Reason for Delay)
+3. Delay Distribution Histogram (عبر `Delay_Minutes` F16)
 4. Journey Status 100% Stacked Bar Chart (Month_Name × Journey Status)
-5. Top 10 Worst Routes by Delay (Bar Chart)
-6. Delay Distribution Histogram
+5. Top 10 Worst Routes by Delay/Cancellation (Bar Chart via `Route` F14)
+6. Cancellation Rate Tracking (KPI Card)
 
 ### الـ Visuals المطلوبة:
 - Gauge Chart (On-Time % - Target 90%)
 - Donut/Bar Chart (Reason for Delay)
-- 100% Stacked Bar Chart (Status Breakdown)
-- Bar Chart (Top 10 Delays)
-- Line Chart (Monthly Trend with Anomaly Detection)
-- Heatmap Matrix (Route × Status)
+- Histogram (Delay_Minutes F16)
+- 100% Stacked Bar Chart (Journey Status Breakdown by Month)
+- Bar Chart (Top 10 Worst Routes via Route F14)
+- KPI Cards (× 2: On_Time_Pct + Cancellation_Rate)
 
 ---
 
@@ -76,18 +77,18 @@
 ### الـ Deliverables:
 1. Monthly Demand Heatmap (Month × Day of Week)
 2. Booking Window Analysis (Days between Purchase & Journey)
-3. Peak Hours Identification (Time Period Bar Chart)
+3. Peak Hours Identification (`Departure_Hour` (F17) **أو** Time_Period Bar Chart)
 4. Purchase Type Distribution (Donut Chart)
-5. Price vs Booking Lead Days Scatter (X = Booking_Lead_Days, Y = Average Ticket Price, Bubble Size = Rides)
+5. Price vs Booking Lead Days Scatter (X = `Booking_Lead_Days` (F15), Y = Average Ticket Price, Bubble Size = Rides)
 6. Booking Funnel (All → Advance → On Day)
 
 ### الـ Visuals المطلوبة:
+- Column Chart (Day_Name Rides, sorted)
 - Matrix Heatmap (Conditional Colors)
-- Clustered Bar Chart (Booking Window)
-- Bar Chart (Time Periods with Peak Highlight)
+- Bar Chart (`Departure_Hour` (F17) **أو** Time Periods with Peak Highlight)
+- Bar Chart (Booking Window, sorted)
+- Scatter/Bubble Chart (`Booking_Lead_Days` (F15) × Average Price)
 - Donut Chart (Purchase Type)
-- Scatter/Bubble Chart (Booking Lead Days × Average Price)
-- Area Chart (Monthly Demand by Class)
 
 ---
 
