@@ -1,7 +1,7 @@
 # 🏗️ دليل بناء الـ Data Model في Power BI — Star Schema
 
 > **المشروع:** UK Train Rides Analysis  
-> **الأعمدة:** 18 أصلي + 4 ميزات جديدة (F10–F13)  
+> **الأعمدة:** 18 أصلي + 9 ميزات (F10–F18)  
 > **النموذج:** Star Schema (نجمة)
 
 ---
@@ -55,6 +55,11 @@ erDiagram
         string Price_Band
         string Booking_Window
         boolean Revenue_Lost_Flag
+        string Route
+        int Booking_Lead_Days
+        int Delay_Minutes
+        int Departure_Hour
+        string Delay_Category
     }
 
     Dim_Date {
@@ -62,10 +67,12 @@ erDiagram
         date Full_Date
         string Day_Name
         int Day_of_Week
+        int Week_Number
         int Month_Number
         string Month_Name
         int Year
         boolean Is_Weekend
+        string Weekend_Label
     }
 
     Dim_Station {
@@ -117,16 +124,21 @@ erDiagram
 | `Journey_Status` | أصلي | Text | حالة الرحلة (On Time / Delayed / Cancelled) |
 | `Refund_Request` | أصلي | Text | هل طُلب استرداد؟ (Yes / No) |
 | `Reason_for_Delay` | أصلي | Text | سبب التأخير أو الإلغاء (Weather, Signal Failure, etc.) |
-| `Time_Period` | ✨ **ميزة جديدة F10** | Text | فترة اليوم (Morning Peak / Midday / Evening Peak / Off-Peak) |
-| `Price_Band` | ✨ **ميزة جديدة F11** | Text | الفئة السعرية (Budget / Standard / Premium / Luxury) |
-| `Booking_Window` | ✨ **ميزة جديدة F12** | Text | نافذة الحجز (Same Day / Short / Medium / Long / Very Long) |
-| `Revenue_Lost_Flag` | ✨ **ميزة جديدة F13** | Boolean | علامة خسارة الإيرادات (True = ملغاة + مُستردة) |
+| `Time_Period` | ✨ **ميزة F10** | Text | فترة اليوم (Morning Peak / Midday / Evening Peak / Off-Peak) |
+| `Price_Band` | ✨ **ميزة F11** | Text | الفئة السعرية (Budget / Standard / Premium / Luxury) |
+| `Booking_Window` | ✨ **ميزة F12** | Text | نافذة الحجز (Same Day / Short / Medium / Long / Very Long) |
+| `Revenue_Lost_Flag` | ✨ **ميزة F13** | Boolean | علامة خسارة الإيرادات (True = ملغاة + مُستردة) |
+| `Route` | ✨ **ميزة جديدة F14** | Text | المسار: Departure → Arrival (أهم بُعد تحليلي — Top Routes, Treemap) |
+| `Booking_Lead_Days` | ✨ **ميزة جديدة F15** | Integer | أيام بين تاريخ الشراء وتاريخ الرحلة (رقمي، بحد أدنى 0) |
+| `Delay_Minutes` | ✨ **ميزة جديدة F16** | Integer | دقائق التأخير للرحلات المتأخرة (مع معالجة عبور منتصف الليل) |
+| `Departure_Hour` | ✨ **ميزة جديدة F17** | Integer | ساعة المغادرة 0–23 (تحليل ذروة بالساعة) |
+| `Delay_Category` | ✨ **ميزة جديدة F18** | Text | تصنيف التأخير: On Time / Minor (≤15 دقيقة) / Major (>15 دقيقة) |
 
 > [!IMPORTANT]
-> الأعمدة الأربعة الجديدة (F10–F13) تبقى **داخل جدول الـ Fact** كـ Calculated Columns وليس كجداول منفصلة، وذلك لأنها:
+> جميع الميزات التسع (F10–F18) تبقى **داخل جدول الـ Fact** كـ Calculated Columns وليس كجداول منفصلة، وذلك لأنها:
 > - مشتقة من أعمدة أخرى موجودة في نفس الجدول
 > - لا تحتاج لترتيب مخصص (Custom Sort) معقد
-> - عدد قيمها الفريدة صغير جداً (4–5 قيم لكل عمود)
+> - عدد قيمها الفريدة صغير (4–65 قيمة لكل عمود)
 > 
 > هذا يُبسّط النموذج بدون التأثير على الأداء.
 
@@ -149,6 +161,7 @@ erDiagram
 | `Quarter` | Text | `Q1` | الربع |
 | `Year` | Integer | `2024` | السنة |
 | `Is_Weekend` | Boolean | `False` | هل هو يوم عطلة؟ |
+| `Weekend_Label` | Text | `Weekday` | تسمية نهاية الأسبوع (Weekend / Weekday) |
 
 **طريقة الإنشاء في Power BI (DAX):**
 
@@ -248,7 +261,7 @@ ADDCOLUMNS(
 
 ---
 
-## ✨ الأعمدة الجديدة الأربعة — كيفية الإنشاء في Power BI
+## ✨ الأعمدة الجديدة (9 ميزات — F10 إلى F18)
 
 ### F10: Time_Period — فترة اليوم
 
@@ -381,11 +394,16 @@ CALCULATE(SUM(Fact_Rides[Price]), Fact_Rides[Revenue_Lost_Flag] = TRUE())
 2. أضف عمود `Journey_Date_Key` = `FORMAT([Date of Journey], "YYYYMMDD")`
 3. أضف أعمدة المفاتيح الأخرى بناءً على `LOOKUPVALUE`
 <!-- slide -->
-### الخطوة 4: إنشاء الأعمدة الأربعة الجديدة
-1. أنشئ `Time_Period` كـ Calculated Column
-2. أنشئ `Price_Band` كـ Calculated Column
-3. أنشئ `Booking_Window` كـ Calculated Column
-4. أنشئ `Revenue_Lost_Flag` كـ Calculated Column
+### الخطوة 4: إنشاء الأعمدة التسعة الجديدة (F10–F18)
+1. أنشئ `Time_Period` كـ Calculated Column (F10)
+2. أنشئ `Price_Band` كـ Calculated Column (F11)
+3. أنشئ `Booking_Window` كـ Calculated Column (F12)
+4. أنشئ `Revenue_Lost_Flag` كـ Calculated Column (F13)
+5. أنشئ `Route` كـ Calculated Column (F14)
+6. أنشئ `Booking_Lead_Days` كـ Calculated Column (F15)
+7. أنشئ `Delay_Minutes` كـ Calculated Column (F16)
+8. أنشئ `Departure_Hour` كـ Calculated Column (F17)
+9. أنشئ `Delay_Category` كـ Calculated Column (F18)
 <!-- slide -->
 ### الخطوة 5: ربط العلاقات
 1. اذهب إلى **Model View**
@@ -402,6 +420,21 @@ CALCULATE(SUM(Fact_Rides[Price]), Fact_Rides[Revenue_Lost_Flag] = TRUE())
 ---
 
 > [!NOTE]
-> **لماذا لم نحوّل الأعمدة الأربعة الجديدة لجداول Dimension منفصلة؟**
+> **لماذا لم نحوّل الأعمدة التسع الجديدة لجداول Dimension منفصلة؟**
 > 
-> لأن القيم فيها قليلة جداً (4–5 قيم لكل عمود)، وهي مشتقة بالكامل من أعمدة في الـ Fact Table. إنشاء Dimension Table لكل واحدة سيزيد التعقيد بدون فائدة حقيقية. لكن لو أردت ترتيب مخصص (مثلاً: `Morning Peak` يظهر قبل `Midday` في الـ Slicer)، يمكنك إنشاء جدول `Dim_Time_Period` صغير بعمود `Sort_Order`.
+> لأن القيم فيها قليلة (3–65 قيمة لكل عمود)، وهي مشتقة بالكامل من أعمدة في الـ Fact Table. إنشاء Dimension Table لكل واحدة سيزيد التعقيد بدون فائدة حقيقية. لكن لو أردت ترتيب مخصص (مثلاً: `Morning Peak` يظهر قبل `Midday` في الـ Slicer)، يمكنك إنشاء جدول `Dim_Time_Period` صغير بعمود `Sort_Order`.
+
+---
+
+## 📝 مواصفات الميزات الجديدة (F14–F18) — Spec فقط
+
+> [!IMPORTANT]
+> الأكواد (DAX) لـ F14–F18 تُكتب في **مرحلة التنفيذ**. هذا القسم يصف المنطق فقط.
+
+| # | الاسم | النوع | المنطق (بالكلمات) | الغرض |
+|---|-------|------|-------------------|-------|
+| F14 | `Route` | Text | دمج محطة المغادرة و محطة الوصول بفاصل " → " | أهم بُعد تحليلي — يُفعّل Top Routes Bar Chart و Route Treemap |
+| F15 | `Booking_Lead_Days` | Integer | حساب الفرق بالأيام بين تاريخ الشراء وتاريخ الرحلة، بحد أدنى 0 | محور X رقمي في Scatter Chart (صفحة 4) بدلاً من الفئات النصية |
+| F16 | `Delay_Minutes` | Integer | حساب دقائق التأخير (الفرق بين وقت الوصول الفعلي والمجدول) للرحلات المتأخرة فقط، مع معالجة حالة عبور منتصف الليل | يُفعّل Histogram لتوزيع التأخير ومتوسط دقيق (صفحة 3) |
+| F17 | `Departure_Hour` | Integer | استخراج الساعة (0–23) من وقت المغادرة | تحليل الذروة بالساعة — بديل أو مكمّل لـ Time_Period (صفحة 4) |
+| F18 | `Delay_Category` | Text | تصنيف: On Time / Minor (≤15 دقيقة) / Major (>15 دقيقة) بناءً على Journey Status و Delay_Minutes | تصنيف سريع لخطورة التأخير (صفحة 3) |
