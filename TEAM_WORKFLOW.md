@@ -7,100 +7,87 @@
 ## 👑 TL — Eyad Ahmed (Team Leader)
 
 ### المسؤوليات:
-- **Dashboard Page:** Executive Summary + Forecasting (Optional)
-- **Data Architecture:** Star Schema (Fact_Rides + 5 Dimension Tables)
+- **Dashboard Page:** Executive Summary
+- **Data Architecture:** Star Schema (Fact_Rides + 5 Dimension Tables) + Surrogate Keys على كل الأبعاد
 - **DAX Engine:** كل الـ Measures والـ Calculated Columns
 - **Integration & QA:** دمج صفحات الفريق + مراجعة الجودة
 - **Design System:** تطبيق Azure Rail Glassmorphism عبر كل الصفحات
 
 ### الـ Deliverables:
-1. ✅ Data Model كامل (Star Schema)
-2. ✅ Executive Summary Page (5 KPI Cards + Line Chart + Station Bar Chart + 100% Stacked Bar + Station Map)
-3. ✅ Forecasting Page (اختياري - مدمج في Power BI)
-4. ✅ Report Theme JSON (Azure Rail Glassmorphism الفاتح)
-5. ✅ Page Navigation System
-6. ✅ Final Integration & Testing
-
----
-
-## 📊 MB — Ahmed Ali (Data Analyst)
-
-### المسؤوليات:
-- **Dashboard Page:** Revenue Deep Dive
-
-### الـ Deliverables:
-1. Revenue by Top 10 Routes (Bar Chart via `Route` F14)
-2. Ticket Class × Ticket Type Revenue Matrix (with Data Bars)
-3. Revenue Treemap (Route → Class → Type)
-4. Stacked Bar (Price_Band × Month Revenue)
-5. Railcard Revenue (Filtered, excluding "None")
-6. Month-over-Month Revenue Change (with ▲▼ indicators)
-
-### الـ Visuals المطلوبة:
-- Bar Chart (Revenue by Top 10 Routes)
-- Matrix with Conditional Formatting (Ticket Class × Ticket Type)
-- Treemap (Route → Ticket Class → Ticket Type)
-- Stacked Bar (Price_Band × Month)
-- Column Chart (Railcard Revenue, filtered)
-- KPI Cards (× 2: Refunded_Revenue + Avg_Ticket_Price)
-
----
-
-## ⏱️ MC — Mostafa Sabry (Data Analyst)
-
-### المسؤوليات:
-- **Dashboard Page:** Operations & Reliability
-
-### الـ Deliverables:
-1. On-Time Performance Rate (Gauge with 90% Target - الفعلي 86.8% قرار سردي واعٍ)
-2. Delay Root Cause Analysis / أسباب التأخير والإلغاء (Donut/Bar Chart for Reason for Delay)
-3. Delay Distribution Histogram (عبر `Delay_Minutes` F16)
-4. Journey Status 100% Stacked Bar Chart (Month_Name × Journey Status)
-5. Top 10 Worst Routes by Delay/Cancellation (Bar Chart via `Route` F14)
-6. Cancellation Rate Tracking (KPI Card)
-
-### الـ Visuals المطلوبة:
-- Gauge Chart (On-Time % - Target 90%)
-- Donut/Bar Chart (Reason for Delay)
-- Histogram (Delay_Minutes F16)
-- 100% Stacked Bar Chart (Journey Status Breakdown by Month)
-- Bar Chart (Top 10 Worst Routes via Route F14)
-- KPI Cards (× 2: On_Time_Pct + Cancellation_Rate)
+1. ✅ Data Model كامل (Star Schema + Surrogate Keys)
+2. ✅ Executive Summary Page (5 KPI Cards + Line Chart + Station Bar Chart + Map)
+3. ✅ Report Theme (Azure Rail Glassmorphism الفاتح)
+4. ✅ Page Navigation System
+5. ✅ Final Integration & Testing
 
 ---
 
 ## 📈 MD — Rawan Tarek (Data Analyst)
 
 ### المسؤوليات:
-- **Dashboard Page:** Demand & Booking Patterns
+- **Dashboard Pages:** Revenue Deep Dive + Operations & Reliability + Demand & Booking Patterns
 
 ### الـ Deliverables:
-1. Monthly Demand Heatmap (Month × Day of Week)
-2. Booking Window Analysis (Days between Purchase & Journey)
-3. Peak Hours Identification (`Departure_Hour` (F17) **أو** Time_Period Bar Chart)
-4. Purchase Type Distribution (Donut Chart)
-5. Price vs Booking Lead Days Scatter (X = `Booking_Lead_Days` (F15), Y = Average Ticket Price, Bubble Size = Rides)
-6. Booking Funnel (All → Advance → On Day)
+1. Revenue by Top 10 Routes (Bar Chart via `Route` F14)
+2. Ticket Class × Ticket Type Revenue Matrix
+3. On-Time Performance Rate (Gauge - الفعلي 86.8%)
+4. Delay Root Cause Analysis (Donut/Bar Chart for Reason for Delay)
+5. Delay Distribution Histogram (`Delay_Minutes` F16)
+6. Journey Status 100% Stacked Bar Chart (Month × Journey Status)
+7. Monthly Demand Heatmap (Month × Day of Week)
+8. Peak Hours Identification
+9. Purchase Type Distribution (Donut Chart)
 
 ### الـ Visuals المطلوبة:
-- Column Chart (Day_Name Rides, sorted)
+- Bar Chart (Revenue by Top 10 Routes)
+- Matrix with Conditional Formatting (Ticket Class × Ticket Type)
+- Gauge Chart (On-Time % - Target 90%)
+- Donut/Bar Chart (Reason for Delay)
+- Histogram (Delay_Minutes F16)
+- 100% Stacked Bar Chart (Journey Status Breakdown by Month)
 - Matrix Heatmap (Conditional Colors)
-- Bar Chart (`Departure_Hour` (F17) **أو** Time Periods with Peak Highlight)
-- Bar Chart (Booking Window, sorted)
-- Scatter/Bubble Chart (`Booking_Lead_Days` (F15) × Average Price)
+- Bar Chart (Peak Hours / Time Periods)
 - Donut Chart (Purchase Type)
+- KPI Cards (Refunded_Revenue, Avg_Ticket_Price, On_Time_Pct, Cancellation_Rate)
+
+---
+
+## 🐍 MB — Ahmed Ali (Data Analyst)
+
+### المسؤوليات:
+- **Track:** Python — Data Cleaning & Exploratory Data Analysis (EDA)
+
+### الـ Deliverables:
+1. تنظيف الداتا الخام (railway.csv) قبل دخولها Power BI
+2. Notebook كامل (`feature_cleaned.ipynb`) بخطوات التنظيف والتحليل
+3. Exploratory Data Analysis (توزيعات، outliers، علاقات بين الأعمدة)
+4. تقرير مختصر بأهم الـ insights
+
+---
+
+## 📊 MC — Mostafa Sabry (Data Analyst)
+
+### المسؤوليات:
+- **Track:** Excel — داشبورد مبسّط مطابق لأرقام الـ Power BI
+
+### الـ Deliverables:
+1. 5 KPI Cards: Total Revenue · Total Rides · On-Time % · Cancellation % · Avg Ticket Price
+2. Revenue by Month (Chart)
+3. Journey Status Breakdown (Chart)
+4. Top Stations by Revenue (Chart)
+5. Rides by Day of Week (Chart)
+6. كل الحسابات Formulas (مش أرقام ثابتة)
 
 ---
 
 ## 📅 Workflow Steps
 
 ```
-1. Clone Repo → Read GETTING_STARTED.md
-2. Open Foundation_v1_TL.pbix → Find your page
-3. Read ADVANCED_DASHBOARD_GUIDE.md → Follow design rules
-4. Build your visuals → Apply design system colors
-5. Save → Notify TL for review
-6. TL merges all pages → Final QA
+1. Ahmed Ali ينظف الداتا في Python → يسلّم النسخة النضيفة
+2. Eyad يبني Star Schema + Surrogate Keys + DAX + Executive Summary
+3. Rawan تبني صفحات Revenue / Operations / Demand على نفس الموديل والثيم
+4. Mostafa يبني داشبورد Excel من نفس الداتا، ويتأكد من مطابقة الأرقام
+5. Eyad يعمل QA نهائي ودمج كل حاجة قبل الدفاع
 ```
 
 ---
