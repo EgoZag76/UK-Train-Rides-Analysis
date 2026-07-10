@@ -186,7 +186,7 @@ Revenue_vs_Target =
 
 ---
 
-### 💰 Page 2: Revenue Deep Dive — Ahmed Ali (MB)
+### 💰 Page 2: Revenue Deep Dive — Rawan Tarek (MD)
 
 > **الفلسفة:** "أين تذهب أموالنا؟ وأين نخسرها؟"
 
@@ -236,7 +236,7 @@ Revenue_Page_Title =
 
 ---
 
-### ⏱️ Page 3: Operations & Reliability — Mostafa Sabry (MC)
+### ⏱️ Page 3: Operations & Reliability — Rawan Tarek (MD)
 
 > **الفلسفة:** "هل نحن موثوقون؟ وأين نفشل؟"
 
@@ -333,7 +333,7 @@ Active_Filters_Count =
 
 ### 🔮 Page 5: Forecasting (Optional) — Eyad Ahmed (TL)
 
-> **الفلسفة:** "ماذا سيحدث في الأسابيع القادمة؟"
+> ملحوظة: صفحة اختيارية — لم تُبنَ في النسخة النهائية المُسلَّمة (التركيز انصبّ على الأربع صفحات الأساسية). الجدول التالي يُترك كمرجع مستقبلي فقط.
 
 | # | التكنيك | التنفيذ |
 |---|---------|---------|
@@ -359,9 +359,8 @@ KPI Values: 24pt Bold, #003366
 
 ### Navigation System
 ```
-كل صفحة تحتوي في الأسفل على:
-[◄ Previous] [●] [●] [●] [●] [Next ►]
-استخدم أزرار SVG من مجلد buttons/
+كل صفحة تحتوي في الأسفل/الجانب على نظام تنقّل بين الصفحات:
+Page Navigator شفاف (Transparent Buttons) فوق صور نافبار مصممة يدويًا لكل صفحة.
 Action: Page Navigation → اسم الصفحة
 ```
 
@@ -384,12 +383,17 @@ Action: Page Navigation → اسم الصفحة
 }
 ```
 
-### Slicer Sync
+### Slicer Strategy
 ```
-View → Sync Slicers → تأكد أن:
-- Month Slicer: متزامن عبر كل الصفحات
-- Date Range: متزامن عبر كل الصفحات
-- Station: غير متزامن (كل صفحة مستقلة)
+كل صفحة عندها سلايسرز مستقلة خاصة بيها (بدون Sync Slicers بين الصفحات):
+- Executive Summary: Month + Weekend
+- Revenue Deep Dive: Price_Band + Ticket_Class
+- Operations: Reason for Delay + Month
+- Demand: Time_Period + Weekend
+
+السبب: مزامنة سلايسر الشهر عبر كل الصفحات كانت هتخلق مخاطرة "Forgotten Filter"
+(فلتر متطبّق من صفحة سابقة وناسيه، فيضلل قراءة الأرقام) وتكسر قصة "الصورة الكاملة"
+لكل صفحة على حدة. القرار كان مقصود ومُبرَّر، مش نسيان.
 ```
 
 ### Performance Tips
@@ -411,7 +415,7 @@ View → Sync Slicers → تأكد أن:
 - [ ] Data Labels مفعلة (حجم صغير)
 - [ ] Alt Text على كل Visual (Accessibility)
 - [ ] Navigation Buttons تعمل بين كل الصفحات
-- [ ] Slicers متزامنة حسب الجدول أعلاه
+- [ ] السلايسرز مستقلة لكل صفحة (لا تزامن) حسب الجدول أعلاه
 - [ ] Custom Tooltips تعمل بشكل صحيح
 - [ ] الخطوط موحدة (Segoe UI)
 - [ ] Canvas Size = 1664 × 936
