@@ -11,10 +11,10 @@
 | Field | Details |
 |-------|---------|
 | **Instructor** | Kareem Bakly |
-| **Tools** | Power BI Desktop, GitHub |
+| **Tools** | Power BI Desktop, Python, Excel, GitHub |
 | **Dataset** | 31,653 transactions × 18 columns |
 | **Period** | January — April 2024 |
-| **Data Model** | Star Schema (1 Fact + 5 Dimensions) |
+| **Data Model** | Star Schema (1 Fact + 5 Dimensions) with Surrogate Keys |
 
 ---
 
@@ -28,39 +28,32 @@
 
 ## 👥 Team
 
-| Member | Role | Dashboard Page |
+| Member | Role | Contribution |
 |--------|------|----------------|
-| **Eyad Ahmed** | Team Leader | Executive Summary + Forecasting (Optional) |
-| **Ahmed Ali** | Data Analyst | Revenue Deep Dive |
-| **Mostafa Sabry** | Data Analyst | Operations & Reliability |
-| **Rawan Tarek** | Data Analyst | Demand & Booking Patterns |
+| **Eyad Ahmed** | Team Leader | Power BI — Data Model (Star Schema + Surrogate Keys) + DAX + Executive Summary Page |
+| **Rawan Tarek** | Data Analyst | Power BI — Revenue Deep Dive + Operations & Reliability + Demand & Booking Pages |
+| **Ahmed Ali** | Data Analyst | Python — Data Cleaning & Exploratory Data Analysis (EDA) |
+| **Mostafa Sabry** | Data Analyst | Excel — Supporting Dashboard |
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-├── 📊 Foundation_v1_TL.pbix           → Base Power BI Dashboard
-├── 📄 Project_Info.pdf                 → Project Documentation (PDF)
+├── 📂 MD/
+│   └── 📊 Foundation_v1_TL.pbix        → Final Power BI Dashboard
+├── 📄 Project_Data.pdf                 → Project Info (Name, Team, Tasks, Instructor)
+├── 📊 UK_Train_Rides_Dashboard.xlsx    → Excel Dashboard (Mostafa Sabry)
+├── 🎤 Presentation.pptx                → Defense Presentation Slides
 ├── 📋 README.md                        → This file
-├── 📋 Project_PRD.md                   → Active Product Requirements Document (Root)
-├── 📐 ADVANCED_DASHBOARD_GUIDE.md      → Professional Dashboard Design Guide
 ├── 📑 TEAM_WORKFLOW.md                 → Task Distribution & Workflow
-├── 📖 GETTING_STARTED.md               → Onboarding Guide
+├── 📐 ADVANCED_DASHBOARD_GUIDE.md      → Professional Dashboard Design Guide
 ├── 📖 GETTING_STARTED_اول حاجه تقرأ ده.md → Onboarding Guide (Arabic)
 ├── 🗂️ UK Train Rides new.csv           → Raw Dataset
 ├── 📂 docs/
-│   ├── New_Implementation_Plan.rtl.md  → Active Implementation Plan (Arabic/RTL)
 │   ├── Power_BI_Modeling_Guide.md      → Data Modeling Guide
 │   └── DESIGN.md                       → Design System Specs (Azure Rail Glassmorphism)
-├── 📂 archive/                         → Archived legacy/unsupported documentation
-│   ├── Project_PRD.md
-│   ├── Team_Implementation_Plan.md
-│   ├── Team_Implementation_Plan_root.md
-│   ├── PROJECT_OVERVIEW.md
-│   ├── DESIGN.md
-│   └── power_bi_data_model.md
-└── 📂 buttons/                         → SVG Navigation Buttons
+└── 📂 archive/                         → Archived legacy/unsupported documentation
 ```
 
 ---
@@ -68,10 +61,10 @@
 ## 🚀 Quick Start
 
 1. Clone the repository
-2. Read `GETTING_STARTED.md` for onboarding
-3. Open `Foundation_v1_TL.pbix` in Power BI Desktop
+2. Read `GETTING_STARTED_اول حاجه تقرأ ده.md` for onboarding
+3. Open `MD/Foundation_v1_TL.pbix` in Power BI Desktop
 4. Follow `ADVANCED_DASHBOARD_GUIDE.md` for design standards
-5. Refer to `TEAM_WORKFLOW.md` for your assigned tasks
+5. Refer to `TEAM_WORKFLOW.md` for task distribution
 
 ---
 
