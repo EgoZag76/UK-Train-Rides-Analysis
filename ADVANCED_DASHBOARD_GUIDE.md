@@ -186,7 +186,7 @@ Revenue_vs_Target =
 
 ---
 
-### 💰 Page 2: Revenue Deep Dive — Rawan Tarek (MD)
+### 💰 Page 2: Revenue Deep Dive — Eyad Ahmed (TL)
 
 > **الفلسفة:** "أين تذهب أموالنا؟ وأين نخسرها؟"
 
@@ -236,7 +236,7 @@ Revenue_Page_Title =
 
 ---
 
-### ⏱️ Page 3: Operations & Reliability — Rawan Tarek (MD)
+### ⏱️ Page 3: Operations & Reliability — Eyad Ahmed (TL)
 
 > **الفلسفة:** "هل نحن موثوقون؟ وأين نفشل؟"
 
@@ -289,7 +289,7 @@ Reliability_Alert =
 
 ---
 
-### 📈 Page 4: Demand & Booking — Rawan Tarek (MD)
+### 📈 Page 4: Demand & Booking — Eyad Ahmed (TL)
 
 > **الفلسفة:** "متى يحجزون؟ كيف يحجزون؟ وماذا يريدون؟"
 
