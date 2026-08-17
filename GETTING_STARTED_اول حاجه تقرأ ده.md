@@ -36,11 +36,10 @@
 
 المشروع مقسّم على **3 مسارات**، كل واحد بأدواته الخاصة — مش كل الفريق بيشتغل على نفس الملف:
 
-### 🅰️ مسار الـ Power BI (Eyad + Rawan)
+### 🅰️ مسار الـ Power BI (Eyad Ahmed)
 1. حمّل `MD/Foundation_v1_TL.pbix` وافتحه بـ Power BI Desktop.
-2. اقرأ `TEAM_WORKFLOW.md` عشان تعرف مسؤول عن أنهي صفحة بالظبط.
+2. اقرأ `TEAM_WORKFLOW.md` لمعرفة تفاصيل بناء التقرير بالكامل.
 3. اتبع `ADVANCED_DASHBOARD_GUIDE.md` للألوان والستايل الموحّد.
-4. أي تعديل بتعمله كلّم التاني عشان تتجنّبوا تعارض في نفس الملف.
 
 ### 🅱️ مسار الـ Python (Ahmed Ali)
 1. حمّل `UK Train Rides new.csv` (الداتا الخام).
@@ -61,8 +60,8 @@
 
 | الكود | الاسم | المسار |
 |-------|-------|--------|
-| TL | Eyad Ahmed (Leader) | Power BI — Data Model + Executive Summary |
-| MD | Rawan Tarek | Power BI — Revenue + Operations + Demand |
+| TL | Eyad Ahmed (Leader) | Power BI — Full Build (Data Model + 4 Pages + DAX) |
+| Contributor | Rawan Tarek | Early Power BI page draft (exploration phase) |
 | MB | Ahmed Ali | Python — Data Cleaning & EDA |
 | MC | Mostafa Sabry | Excel Dashboard |
 
