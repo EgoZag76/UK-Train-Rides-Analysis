@@ -7,103 +7,74 @@
 ## 👑 TL — Eyad Ahmed (Team Leader)
 
 ### المسؤوليات:
-- **Dashboard Page:** Executive Summary
+- **Project Plan:** تقسيم المهام + تحديد الأدوات + ترتيب التسليم
 - **Data Architecture:** Star Schema (Fact_Rides + 5 Dimension Tables) + Surrogate Keys على كل الأبعاد
 - **DAX Engine:** كل الـ Measures والـ Calculated Columns
-- **Integration & QA:** دمج صفحات الفريق + مراجعة الجودة
+- **Report Build:** كل صفحات التقرير الأربعة
 - **Design System:** تطبيق Azure Rail Glassmorphism عبر كل الصفحات
+- **Integration & QA:** الدمج النهائي + مراجعة الجودة
 
 ### الـ Deliverables:
 1. ✅ Data Model كامل (Star Schema + Surrogate Keys)
 2. ✅ Executive Summary Page (5 KPI Cards + Line Chart + Station Bar Chart + Map)
-3. ✅ Report Theme (Azure Rail Glassmorphism الفاتح)
-4. ✅ Page Navigation System
-5. ✅ Final Integration & Testing
+3. ✅ Revenue Deep Dive Page (Matrix + Treemap + Price Bands + Railcard)
+4. ✅ Operations & Reliability Page (Gauge + Delay Reasons + Worst Routes)
+5. ✅ Demand & Booking Patterns Page (Heatmap + Departure Hours + Booking Window)
+6. ✅ Report Theme (Azure Rail Glassmorphism الفاتح)
+7. ✅ Page Navigation System
+8. ✅ Final Integration & Testing
 
 ---
 
-## 📈 MD — Rawan Tarek (Data Analyst)
+## 🐍 Ahmed Ali (Data Analyst)
 
 ### المسؤوليات:
-- **Dashboard Pages:** Revenue Deep Dive + Operations & Reliability + Demand & Booking Patterns
+- **Python:** تنظيف البيانات (Data Cleaning)
+- **EDA:** التحليل الاستكشافي للبيانات
 
 ### الـ Deliverables:
-1. Revenue by Top 10 Routes (Bar Chart via `Route` F14)
-2. Ticket Class × Ticket Type Revenue Matrix
-3. On-Time Performance Rate (Gauge - الفعلي 86.8%)
-4. Delay Root Cause Analysis (Donut/Bar Chart for Reason for Delay)
-5. Delay Distribution Histogram (`Delay_Minutes` F16)
-6. Journey Status 100% Stacked Bar Chart (Month × Journey Status)
-7. Monthly Demand Heatmap (Month × Day of Week)
-8. Peak Hours Identification
-9. Purchase Type Distribution (Donut Chart)
-
-### الـ Visuals المطلوبة:
-- Bar Chart (Revenue by Top 10 Routes)
-- Matrix with Conditional Formatting (Ticket Class × Ticket Type)
-- Gauge Chart (On-Time % - Target 90%)
-- Donut/Bar Chart (Reason for Delay)
-- Histogram (Delay_Minutes F16)
-- 100% Stacked Bar Chart (Journey Status Breakdown by Month)
-- Matrix Heatmap (Conditional Colors)
-- Bar Chart (Peak Hours / Time Periods)
-- Donut Chart (Purchase Type)
-- KPI Cards (Refunded_Revenue, Avg_Ticket_Price, On_Time_Pct, Cancellation_Rate)
+1. ✅ Cleaned Dataset
+2. ✅ EDA Notebook
 
 ---
 
-## 🐍 MB — Ahmed Ali (Data Analyst)
+## 📊 Mostafa Sabry (Data Analyst)
 
 ### المسؤوليات:
-- **Track:** Python — Data Cleaning & Exploratory Data Analysis (EDA)
+- **Excel:** داشبورد مساند يعكس مقاييس الـ Power BI
 
 ### الـ Deliverables:
-1. تنظيف الداتا الخام (railway.csv) قبل دخولها Power BI
-2. Notebook كامل (`feature_cleaned.ipynb`) بخطوات التنظيف والتحليل
-3. Exploratory Data Analysis (توزيعات، outliers، علاقات بين الأعمدة)
-4. تقرير مختصر بأهم الـ insights
+1. ✅ Excel Dashboard (5 KPI Cards + 4 Charts + Formula-based calculations)
 
 ---
 
-## 📊 MC — Mostafa Sabry (Data Analyst)
+## 🤝 Rawan Tarek (Contributor)
 
-### المسؤوليات:
-- **Track:** Excel — داشبورد مبسّط مطابق لأرقام الـ Power BI
-
-### الـ Deliverables:
-1. 5 KPI Cards: Total Revenue · Total Rides · On-Time % · Cancellation % · Avg Ticket Price
-2. Revenue by Month (Chart)
-3. Journey Status Breakdown (Chart)
-4. Top Stations by Revenue (Chart)
-5. Rides by Day of Week (Chart)
-6. كل الحسابات Formulas (مش أرقام ثابتة)
+### المساهمة:
+- مسودة صفحة Power BI مبكرة في مرحلة الاستكشاف
 
 ---
 
-## 📅 Workflow Steps
+## 🔄 Delivery Pipeline
 
-```
-1. Ahmed Ali ينظف الداتا في Python → يسلّم النسخة النضيفة
-2. Eyad يبني Star Schema + Surrogate Keys + DAX + Executive Summary
-3. Rawan تبني صفحات Revenue / Operations / Demand على نفس الموديل والثيم
-4. Mostafa يبني داشبورد Excel من نفس الداتا، ويتأكد من مطابقة الأرقام
-5. Eyad يعمل QA نهائي ودمج كل حاجة قبل الدفاع
-```
-
----
-
-## 🎨 Design Rules (Mandatory)
-
-| Rule | Value |
-|------|-------|
-| Canvas Size | 1664 × 936 px |
-| Primary Color | Deep Navy #003366 |
-| Accent Color | Azure Blue #0078D4 |
-| Font | Segoe UI |
-| Header Height | 45px Navy band |
-| Corner Radius | 12px cards, 20px containers |
-| Animation | ON, 800ms |
+1. **Data Preparation** — Python cleaning & EDA · *Ahmed Ali*
+2. **Data Modeling** — Star Schema + Surrogate Keys · *Eyad Ahmed*
+3. **Measure Layer** — DAX authoring · *Eyad Ahmed*
+4. **Report Build** — 4-page Power BI development · *Eyad Ahmed*
+5. **Parallel Validation** — Excel cross-check · *Mostafa Sabry*
+6. **Integration & QA** — Final consolidation and release · *Eyad Ahmed*
 
 ---
 
-> 📌 For detailed design guide, see: **ADVANCED_DASHBOARD_GUIDE.md**
+## 🎨 Design Standards
+
+| Standard | Value |
+|----------|-------|
+| **Primary Colors** | Deep Navy `#003366` + Azure Blue `#0078D4` |
+| **Semantic Colors** | Blue = On Time · Amber = Delayed · Red = Cancelled |
+| **Typography** | Segoe UI |
+| **Canvas** | 1664 × 936 px |
+| **Corners** | 12–20px rounded |
+| **Transitions** | 800ms ease-in-out |
+
+النظام ده مطبق بنفس الشكل على الصفحات الأربعة، عشان التقرير يقرا كمنتج واحد مش أربع صفحات منفصلة.
