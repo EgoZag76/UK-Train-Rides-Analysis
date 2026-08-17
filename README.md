@@ -1,7 +1,7 @@
 # 🚆 UK Train Rides Analysis
 
 > **Power BI Interactive Dashboard** analyzing **31,653 UK railway transactions** (Jan–Apr 2024)
-> 
+>
 > Design System: **Azure Rail Glassmorphism** — Deep Navy (#003366) + Azure Blue (#0078D4)
 
 ---
@@ -26,14 +26,27 @@
 
 ---
 
+## 📊 Dashboard Pages
+
+| Page | What it answers |
+|------|-----------------|
+| **Executive Summary** | Five headline KPIs — revenue, rides, on-time %, average fare, cancellation rate — above trend, geographic, and station-ranking views |
+| **Revenue Deep Dive** | Revenue by route, class × ticket-type matrix, price bands by month, railcard segments, refunded revenue |
+| **Operations & Reliability** | On-time performance against a 90% target, delay reasons, delay-minute distribution, worst routes by delay |
+| **Demand & Booking Patterns** | Rides by day and departure hour, month × day demand heatmap, booking-window mix, lead days vs ticket price |
+
+All four pages share a persistent navigation bar and two global slicers, so filter context carries across the report. A semantic color convention is applied throughout — blue for on-time, amber for delayed, red for cancelled.
+
+---
+
 ## 👥 Team
 
 | Member | Role | Contribution |
-|--------|------|----------------|
-| **Eyad Ahmed** | Team Leader | Power BI — Data Model (Star Schema + Surrogate Keys) + DAX + Executive Summary Page |
-| **Rawan Tarek** | Data Analyst | Power BI — Revenue Deep Dive + Operations & Reliability + Demand & Booking Pages |
-| **Ahmed Ali** | Data Analyst | Python — Data Cleaning & Exploratory Data Analysis (EDA) |
-| **Mostafa Sabry** | Data Analyst | Excel — Supporting Dashboard |
+|--------|------|--------------|
+| **Eyad Ahmed** | Team Lead | Project plan, task breakdown, and delivery sequence · **Full Power BI build** — star schema data model, all DAX measures, all four report pages, design system, and final integration |
+| **Ahmed Ali** | Data Analyst | Python — data cleaning and exploratory data analysis (EDA) |
+| **Mostafa Sabry** | Data Analyst | Excel — supporting dashboard with KPI cards and analytical charts |
+| **Rawan Tarek** | Contributor | Early Power BI page draft during the exploration phase |
 
 ---
 
@@ -41,19 +54,16 @@
 
 ```
 ├── 📂 MD/
-│   └── 📊 Foundation_v1_TL.pbix        → Final Power BI Dashboard
-├── 📄 Project_Data.pdf                 → Project Info (Name, Team, Tasks, Instructor)
-├── 📊 UK_Train_Rides_Dashboard.xlsx    → Excel Dashboard (Mostafa Sabry)
-├── 🎤 Presentation.pptx                → Defense Presentation Slides
-├── 📋 README.md                        → This file
-├── 📑 TEAM_WORKFLOW.md                 → Task Distribution & Workflow
-├── 📐 ADVANCED_DASHBOARD_GUIDE.md      → Professional Dashboard Design Guide
-├── 📖 GETTING_STARTED_اول حاجه تقرأ ده.md → Onboarding Guide (Arabic)
-├── 🗂️ UK Train Rides new.csv           → Raw Dataset
+│   └── 📊 Foundation_v1_TL.pbix
+├── 📄 Project_Data.pdf
+├── 📊 UK_Train_Rides_Dashboard.xlsx
+├── 🎤 Presentation.pptx
+├── 📋 README.md
+├── 📑 TEAM_WORKFLOW.md
+├── 📐 ADVANCED_DASHBOARD_GUIDE.md
+├── 🗂️ UK Train Rides new.csv
 ├── 📂 docs/
-│   ├── Power_BI_Modeling_Guide.md      → Data Modeling Guide
-│   └── DESIGN.md                       → Design System Specs (Azure Rail Glassmorphism)
-└── 📂 archive/                         → Archived legacy/unsupported documentation
+└── 📂 archive/
 ```
 
 ---
@@ -61,11 +71,10 @@
 ## 🚀 Quick Start
 
 1. Clone the repository
-2. Read `GETTING_STARTED_اول حاجه تقرأ ده.md` for onboarding
-3. Open `MD/Foundation_v1_TL.pbix` in Power BI Desktop
-4. Follow `ADVANCED_DASHBOARD_GUIDE.md` for design standards
-5. Refer to `TEAM_WORKFLOW.md` for task distribution
+2. Open `MD/Foundation_v1_TL.pbix` in Power BI Desktop
+3. Reference `ADVANCED_DASHBOARD_GUIDE.md` for the design standards
+4. Reference `TEAM_WORKFLOW.md` for how the delivery was structured
 
 ---
 
-*Built with ❤️ by Team Eyad Ahmed | Instructor: Kareem Bakly*
+*Built by Team Eyad Ahmed | Instructor: Kareem Bakly*
